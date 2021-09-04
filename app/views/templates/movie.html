@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block title %} Index {% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-4">
+            <class class="card bg-dark">
+                <img src="{{ mov.portada }}">
+            </class>
+        </div>
+        <div class="col-8">
+            <h5>{{ mov.titulo }}</h5>
+            {% for g in mov.generos %}
+            <h6>{{ g.nombre }}</h6>
+            {% endfor %}
+            <p>{{ mov.descripcion }}</p>
+        </div>
+    </div>
+    <hr>
+    <h2>Trailer</h2>
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/{{mov.video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <hr>
+    <h2>Relacionados</h2>
+    <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
+        {% for p in sim %}
+        <div class="col mx-auto">
+            <a href="{{ url_for('movie_id', id_movie=p.id) }}">
+                <div class="card bg-dark">
+                    <img src="{{ p.portada }}" alt="Portada" class="card-img">
+                </div>
+            </a>
+            <div>
+                <h6>{{ p.titulo }}</h6>
+                <p class="font-weight-lighter">{{ p.fecha }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Comentarios</h2>
+
+    <form action="/comment/" method="POST">
+        <div class="form-group">
+            <textarea class="form-control" name="comentario" rows="3"></textarea>
+            <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+    </form>
+    
+    {% for c in com %}
+    <div class="media">
+        <h5>[imagen]</h5>
+        <div class="media-body">
+            <h5>Usuario</h5>
+            <p>{{ c.contenido }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
