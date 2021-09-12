@@ -10,7 +10,7 @@ Definir cúal es el alcance de este proyecto y los principales objetivos que deb
 
 ## Modelo de Dominio
 
-Insertar el modelo de dominio aquí.
+![Modelo de dominio](img/modelo-de-dominio.png)
 
 ## Bosquejo de Arquitectura
 
