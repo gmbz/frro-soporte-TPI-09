@@ -18,19 +18,22 @@
             <h6>{{ g.nombre }}</h6>
             {% endfor %}
             <p>{{ mov.descripcion }}</p>
+            <p>{{ mov.id }}</p>
         </div>
     </div>
     <hr>
     <h2>Trailer</h2>
+    {% if mov.video %}
     <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/{{mov.video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    {% endif %}
     <hr>
     <h2>Relacionados</h2>
     <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
         {% for p in sim %}
         <div class="col mx-auto">
-            <a href="{{ url_for('movie_id', id_movie=p.id) }}">
+            <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
                 <div class="card bg-dark">
                     <img src="{{ p.portada }}" alt="Portada" class="card-img">
                 </div>
@@ -45,23 +48,27 @@
 
     <h2>Comentarios</h2>
 
-    <form action="/comment/" method="POST">
-        <div class="form-group">
-            <textarea class="form-control" name="comentario" rows="3"></textarea>
-            <button type="submit" class="btn btn-primary">Publicar</button>
-        </div>
-    </form>
-    
-    {% for c in com %}
-    <div class="media">
-        <h5>[imagen]</h5>
-        <div class="media-body">
-            <h5>Usuario</h5>
-            <p>{{ c.contenido }}</p>
+    <div class="row justify-content">
+        <div class="col-8">
+            <form action="{{ url_for('main.movie_comment') }}" method="POST">
+                <input type="text" name="IdMovie" value="{{ mov.id }}">
+                <div class="form-group">
+                    <textarea class="form-control" name="comentario" rows="3"></textarea>
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </div>
+            </form>
+            {% for c in com %}
+            <div class="media border-top">
+                <h5>[imagen]</h5>
+                <div class="media-body ml-2">
+                    <p>{{ c.user.username }}</p>
+                    <p>{{ c.contenido }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
-
+    
 </div>
 
 {% endblock %}

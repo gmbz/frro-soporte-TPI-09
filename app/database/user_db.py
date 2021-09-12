@@ -12,8 +12,11 @@ def register_user(usuario: Usuario) -> Usuario:
     session.commit()
     return usuario
 
+def buscar_id_user(user_: Usuario) -> Usuario:
+    return session.query(Usuario).get(user_.id)
+
 def buscar_id(id_usuario) -> Optional[Usuario]:
-    return session.query(Usuario).get(id_usuario).first()
+    return session.query(Usuario).get(id_usuario)
 
 def user_exists(user_: Usuario) -> Optional[Usuario]:
     return session.query(Usuario).filter(Usuario.username == user_.username).first()

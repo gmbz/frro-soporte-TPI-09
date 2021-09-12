@@ -9,4 +9,4 @@ def autenticacion(username_: str, pass_: str) -> Usuario:
     return user_db.autenticacion(username_,pass_)
 
 def buscar_id(id_usuario: int) -> Optional[Usuario]:
-    return user_db.buscar_id
+    return user_db.buscar_id(id_usuario)

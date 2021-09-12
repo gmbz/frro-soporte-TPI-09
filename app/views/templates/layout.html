@@ -5,14 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/litera/bootstrap.min.css" integrity="sha384-enpDwFISL6M3ZGZ50Tjo8m65q06uLVnyvkFO3rsoW0UC15ATBFz3QEhr3hmxpYsn" crossorigin="anonymous">
-    
     <title>{%block title%} {% endblock %}</title>
 </head>
-<body class="bg-dark text-light">
+<body class="text-light bg-dark">
   <div class="container">
   <nav class="navbar navbar-expand-lg navbar-dark">
     
-      <a href="{{ url_for('home') }}" class="navbar-brand">
+      <a href="{{ url_for('main.home') }}" class="navbar-brand">
         XD
       </a>
       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
@@ -22,24 +21,24 @@
         {% if  current_user.is_anonymous %}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Iniciar sesión</a>
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Iniciar sesión</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('register') }}">Registrarse</a>
+            <a class="nav-link" href="{{ url_for('auth.register') }}">Registrarse</a>
           </li>
         </ul>
         {% else %}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">{{ current_user.username }} a</a>
+            <a class="nav-link" href="#">{{ current_user.username }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
           </li>
         </ul>
         {% endif %} 
       </div>
-    <form action="/search/" method='POST' class="form-inline">
+    <form action="{{ url_for('main.search') }}" method='POST' class="form-inline">
       <div class="input-group">
           <input type="text" name='search' placeholder="Search" class="form-control">
           <div class="input-group-append">

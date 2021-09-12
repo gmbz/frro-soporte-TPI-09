@@ -4,12 +4,13 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import Date
 from werkzeug.security import generate_password_hash, check_password_hash
+
 Base = declarative_base()
 
 
 class Usuario(Base, UserMixin):
-
     __tablename__ = 'usuario'
+
     id = Column(Integer, primary_key = True, autoincrement = True)
     username = Column(String(250), unique = True)
     password = Column(String(250))
@@ -17,32 +18,15 @@ class Usuario(Base, UserMixin):
 
     comments = relationship("Comentario", backref='user')
 
-    def __init__(self, username, password, email):
-        self.username = username
-        self.password = self.__set_password(password)
-        self.email = email
-
     def __set_password(self, password):
         return generate_password_hash(password)
 
     def check_password(self, password) -> bool:
-        return check_password_hash(self.password, password)
-    
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):   
-        return True           
-
-    def is_anonymous(self):
-        return False          
-
-    def get_id(self):         
-        return str(self.id)
-    
+        return check_password_hash(self.password, password)    
 
 class Movie(Base):
     __tablename__ = 'pelicula'
+    
     id = Column(Integer, primary_key = True)
     titulo = Column(String(250), unique = True)
     descripcion = Column(String(500))

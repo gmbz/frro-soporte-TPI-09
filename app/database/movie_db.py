@@ -1,10 +1,11 @@
-from typing import List, Iterable
+from typing import List, Iterable, Optional
+import requests
 
 from sqlalchemy.sql.expression import null
 
 from ..models.models import Genero, Movie
+from .db import session
 
-import requests
 
 api_key = "25398bd0f8e1460f3769b59bfbf5eea6"  
 def lista_popular() -> List[Movie]:
@@ -49,13 +50,15 @@ def movie(movie_: Movie) -> Movie:
     set_genre(peli, genres)
     return peli
 
-def get_video(id_: str) -> str:
+def get_video(id_: str) -> Optional[str]:
     query = (requests.get("https://api.themoviedb.org/3/movie/"+id_+"/videos?api_key="+api_key)).json()
     pelicula = query['results']
-    for p in pelicula:
-        if p['type']=='Trailer':
-            video = p['key']
-            break
+    if pelicula:
+        for p in pelicula:
+            if p['type']=='Trailer':
+                video = p['key']
+                break
+    else: return None
     return video
 
 def get_similar(movie_: Movie) -> List[Movie]:
@@ -76,3 +79,6 @@ def set_genre(movie_: Movie, genres_: Iterable[dict]):
     for _ in genres_:
         genre = Genero(id=_['id'], nombre=_['name'])
         movie_.generos.append(genre)
+
+def get_in_db(movie_: Movie) -> Optional[Movie]:
+    return session.query(Movie).get(movie_.id)
