@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title %} Index {% endblock %} 
+{% block content %}
+
+<div class="container-xl">
+  <div class="row row-cols-lg-4 row-cols-md-2">
+    {% for p in peli %}
+    <div class="col mx-auto">
+      <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
+        <div class="card bg-dark">
+          <img src="{{ p.portada }}" />
+        </div>
+      </a>
+      <div>
+        <h5>{{ p.titulo }}</h5>
+        <h6 class="font-weight-lighter">{{ p.fecha }}</h6>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

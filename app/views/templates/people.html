@@ -1,0 +1,22 @@
+{% extends 'layout.html' %} 
+{% block title %} Index {% endblock %} 
+{% block content %}
+
+<div class="container">
+  <div class="row row-cols-lg-5 row-cols-md-2">
+    {% for p in lista %}
+    <div class="col mx-auto">
+      <a href="">
+        <div class="card bg-dark">
+          <img src="{{ p.perfil }}" />
+        </div>
+      </a>
+      <div>
+        <p><strong>{{ p.nombre }}</strong></p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

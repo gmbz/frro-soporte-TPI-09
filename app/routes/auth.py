@@ -7,6 +7,7 @@ from ..controller.users_controller import register_user, autenticacion
 
 auth = Blueprint("auth", __name__)
 
+
 @auth.route('/register/', methods=['GET', 'POST'])
 def register():
     register_form = RegistroUsuario(request.form)
@@ -20,6 +21,7 @@ def register():
         return redirect(url_for('auth.register'))
     return render_template('register.html', form=register_form)
 
+
 @auth.route('/login/', methods=['GET', 'POST'])
 def login():
     login_form = Login(request.form)
@@ -32,6 +34,7 @@ def login():
             flash(f"Logueado {current_user.username}")
         return redirect(url_for('auth.login'))
     return render_template('login.html', form=login_form)
+
 
 @auth.route('/logout/')
 def logout():

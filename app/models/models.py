@@ -11,8 +11,8 @@ Base = declarative_base()
 class Usuario(Base, UserMixin):
     __tablename__ = 'usuario'
 
-    id = Column(Integer, primary_key = True, autoincrement = True)
-    username = Column(String(250), unique = True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(250), unique=True)
     password = Column(String(250))
     email = Column(String(250))
 
@@ -22,42 +22,56 @@ class Usuario(Base, UserMixin):
         return generate_password_hash(password)
 
     def check_password(self, password) -> bool:
-        return check_password_hash(self.password, password)    
+        return check_password_hash(self.password, password)
+
 
 class Movie(Base):
     __tablename__ = 'pelicula'
-    
-    id = Column(Integer, primary_key = True)
-    titulo = Column(String(250), unique = True)
+
+    id = Column(Integer, primary_key=True)
+    titulo = Column(String(250), unique=True)
     descripcion = Column(String(500))
     portada = Column(String(250))
     fecha = Column(Date)
     video = Column(String(250))
 
     comments = relationship("Comentario", backref='movie')
-    generos = relationship("Genero", secondary = "genre_movie", back_populates = "peliculas")
+    generos = relationship(
+        "Genero", secondary="genre_movie", back_populates="peliculas")
+
 
 class Genero(Base):
     __tablename__ = 'genero'
-    
-    id = Column(Integer, primary_key = True)
+
+    id = Column(Integer, primary_key=True)
     nombre = Column(String(255))
-    
-    peliculas = relationship("Movie", secondary = "genre_movie", back_populates = "generos")
+
+    peliculas = relationship(
+        "Movie", secondary="genre_movie", back_populates="generos")
+
 
 class GenreMovie(Base):
     __tablename__ = 'genre_movie'
-    
+
     id_movie = Column(Integer, ForeignKey('pelicula.id'), primary_key=True)
     id_genero = Column(Integer, ForeignKey('genero.id'), primary_key=True)
-    
-    pelicula = relationship("Movie", backref = "genre_movie")
-    genero = relationship("Genero", backref = "genre_movie")
+
+    pelicula = relationship("Movie", backref="genre_movie")
+    genero = relationship("Genero", backref="genre_movie")
+
 
 class Comentario(Base):
     __tablename__ = 'comentario'
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key=True)
     contenido = Column(String(250))
     id_usuario = Column(Integer, ForeignKey('usuario.id'))
     id_pelicula = Column(Integer, ForeignKey('pelicula.id'))
+
+
+class Person(Base):
+    __tablename__ = 'persona'
+
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(255))
+    perfil = Column(String(255))
