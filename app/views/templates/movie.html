@@ -4,15 +4,22 @@
 
 <div class="container">
   <div class="row mt-4">
+    <!-- PORTADA -->
     <div class="col-4">
       <class class="card bg-dark">
         <img src="{{ mov.portada }}" />
       </class>
     </div>
+    <!-- TITULO, GENEROS Y DESCRIPCION -->
     <div class="col-8">
       <h5>{{ mov.titulo }}</h5>
       {% for g in mov.generos %}
-      <h6>{{ g.nombre }}</h6>
+      {% if loop.last %}
+      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      {% else %}
+      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      <p class="d-inline-flex">&#9900</p>
+      {% endif %}
       {% endfor %}
       <p>{{ mov.descripcion }}</p>
       <p>{{ mov.id }}</p>
@@ -20,6 +27,7 @@
   </div>
   <hr />
   <h2>Trailer</h2>
+  <!-- TRAILER -->
   {% if mov.video %}
   <div class="embed-responsive embed-responsive-16by9">
     <iframe
@@ -37,6 +45,7 @@
   <hr />
   <h2>Relacionados</h2>
   <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
+    <!-- LISTADO DE PELICULAS RELACIONADAS -->
     {% for p in sim %}
     <div class="col mx-auto">
       <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
@@ -56,18 +65,22 @@
 
   <div class="row justify-content">
     <div class="col-8">
+      <!-- FORMULARIO PARA NUEVO COMENTARIO -->
       <form action="{{ url_for('main.movie_comment') }}" method="POST">
-        <input type="text" name="IdMovie" value="{{ mov.id }}" />
+        <input type="hidden" name="IdMovie" value="{{ mov.id }}" />
         <div class="form-group">
           <textarea class="form-control" name="comentario" rows="3"></textarea>
           <button type="submit" class="btn btn-primary">Publicar</button>
         </div>
       </form>
+      <!-- LISTADO DE COMENTARIOS -->
       {% for c in com %}
       <div class="media border-top">
-        <h5>[imagen]</h5>
+        <div class="media-left">
+          <h5>[imagen]</h5>
+        </div>
         <div class="media-body ml-2">
-          <p>{{ c.user.username }}</p>
+          <h5 class="media-heading">{{ c.user.username }}</h5>
           <p>{{ c.contenido }}</p>
         </div>
       </div>

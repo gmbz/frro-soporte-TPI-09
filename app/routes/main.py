@@ -2,7 +2,7 @@ from flask import Blueprint, request, redirect, url_for, render_template
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from ..models.models import Genero, Usuario, Movie, Comentario
+from ..models.models import Genero, Movie, Comentario
 from ..controller.movies_controller import popular, search_movie, movie, similiares, get_by_genre, trending_day, top_rated
 from ..controller.comments_controller import lista_por_pelicula, registrar_comentario
 
@@ -12,11 +12,13 @@ main = Blueprint("main", __name__)
 
 @main.route('/')
 def home():
-    pop = popular()
-    trending_list = trending_day()
-    top = top_rated()
-    return render_template('index.html', lista=pop, trending=trending_list,
-                           top=top)
+    pag = '1'
+    pop, _ = popular(pag)
+    trending_list_1, trending_list_2, trending_list_3, trending_list_4, = trending_day()
+    top, _ = top_rated(pag)
+    return render_template('index.html', lista=pop, top=top, trending1=trending_list_1,
+                           trending2=trending_list_2, trending3=trending_list_3,
+                           trending4=trending_list_4)
 
 
 @main.route('/search/', methods=['POST'])
@@ -40,14 +42,18 @@ def movie_id(id_movie):
 @login_required
 def movie_comment():
     _movie = Movie(id=request.form['IdMovie'])
-    _user = Usuario(id=current_user.id)
+    _id_user = int(current_user.id)
     _comment = Comentario(contenido=request.form['comentario'])
-    registrar_comentario(_comment, _movie, _user)
+    registrar_comentario(_comment, _movie, _id_user)
     return redirect(url_for('main.home'))
 
 
-@main.route('/genre/<genre_name>', methods=['GET'])
-def genre(genre_name):
+@main.route('/genre/<genre_name>/page=<pag>', methods=['GET'])
+def genre(genre_name, pag):
     genre_ = Genero(nombre=genre_name)
-    peliculas = get_by_genre(genre_)
-    return render_template('genre.html', peli=peliculas)
+    peliculas, paginas = get_by_genre(genre_, pag)
+    lista_paginas, prev_pag, next_pag = paginas
+    url = 'main.genre'
+    
+    return render_template('genre.html', peli=peliculas, pages=lista_paginas,
+                           prev=prev_pag, next=next_pag, url=url, genre_name=genre_name)

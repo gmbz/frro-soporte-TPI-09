@@ -3,14 +3,15 @@ from ..database import comments_db, user_db, movie_db
 from ..models.models import Movie, Comentario, Usuario
 
 
-def registrar_comentario(comment_: Comentario, movie_: Movie, user_: Usuario):
-    user = user_db.buscar_id_user(user_)
+def registrar_comentario(comment: Comentario, movie_: Movie, id_user: int):
+    user = user_db.buscar_id(id_user)
     movie = movie_db.get_in_db(movie_)
     if movie is None:
-        movie = movie_db.movie(movie_)
-    user.comments.append(comment_)
-    movie.comments.append(comment_)
-    comments_db.create(comment_)
+        movie = movie_db.movie_without_genre(movie_)
+    user.comments.append(comment)
+    movie.comments.append(comment)
+    print(comment.contenido)
+    comments_db.create(comment)
 
 
 def lista_por_pelicula(movie_: Movie) -> List[Comentario]:

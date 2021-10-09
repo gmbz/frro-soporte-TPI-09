@@ -3,17 +3,18 @@
 {% block content %}
 
 <div class="container">
-  <div class="row row-cols-lg-5 row-cols-md-2">
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
     {% for p in lista %}
-    <!-- LISTADO DE PERSONAS -->
+    <!-- LISTADO DE PELICULAS -->
     <div class="col mx-auto">
-      <a href="{{ url_for('person.person_id', id_person=p.id)}}">
-        <div class="card bg-dark">
-          <img src="{{ p.perfil }}" />
+      <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
+        <div class="card bg-dark border-dark">
+          <img src="{{ p.portada }}" width="253px" height="379px"/>
         </div>
       </a>
       <div>
-        <p><strong>{{ p.nombre }}</strong></p>
+        <p><strong>{{ p.titulo }}</strong></p>
+        <p>{{ p.fecha }}</p>
       </div>
     </div>
     {% endfor %}

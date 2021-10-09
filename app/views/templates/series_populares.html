@@ -3,17 +3,18 @@
 {% block content %}
 
 <div class="container">
-  <div class="row row-cols-lg-5 row-cols-md-2">
-    {% for p in lista %}
-    <!-- LISTADO DE PERSONAS -->
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
+    {% for s in lista %}
+    <!-- LISTADO DE SERIES -->
     <div class="col mx-auto">
-      <a href="{{ url_for('person.person_id', id_person=p.id)}}">
-        <div class="card bg-dark">
-          <img src="{{ p.perfil }}" />
+      <a href="{{ url_for('series.serie_details', id_serie=s.id)}}">
+        <div class="card bg-dark border-dark">
+          <img src="{{ s.portada }}" width="253px" height="379px"/>
         </div>
       </a>
       <div>
-        <p><strong>{{ p.nombre }}</strong></p>
+        <p><strong>{{ s.nombre }}</strong></p>
+        <p>{{ s.fecha }}</p>
       </div>
     </div>
     {% endfor %}

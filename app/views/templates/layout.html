@@ -13,9 +13,12 @@
     <title>{%block title%} {% endblock %}</title>
   </head>
   <body class="text-light bg-dark">
-    <div class="container">
+    <div class="container-fluid fixed-top bg-dark">
+      <!-- BARRA DE NAVEGACIÓN INICIO -->
       <nav class="navbar navbar-expand-lg navbar-dark">
+        <!-- LOGO -->
         <a href="{{ url_for('main.home') }}" class="navbar-brand"> XD </a>
+        <!-- ICONO PARA PANTALLAS CHICAS -->
         <button
           type="button"
           class="navbar-toggler"
@@ -27,7 +30,37 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- ITEMS A LA IZQUIERDA DE LA BARRA DE NAVEGACION -->
           <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                id="btn-dropdown-genres"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Peliculas</a
+              >
+              <div class="dropdown-menu" aria-labelledby="btn-dropdown-genres">
+                <a
+                  href="{{ url_for('movies.movies_populares', pag=1) }}"
+                  class="dropdown-item"
+                  >Populares</a
+                >
+                <a
+                  href="{{ url_for('movies.movies_top_rated', pag=1) }}"
+                  class="dropdown-item"
+                  >Más valorados</a
+                >
+                <a
+                  href="{{ url_for('movies.movies_upcoming', pag=1) }}"
+                  class="dropdown-item"
+                  >Próximamente</a
+                >
+              </div>
+            </li>
+            <!-- ITEM DROPDOWN -->
             <li class="nav-item dropdown">
               <a
                 href="#"
@@ -40,99 +73,125 @@
               >
               <div class="dropdown-menu" aria-labelledby="btn-dropdown-genres">
                 <a
-                  href="{{ url_for('main.genre', genre_name='Acción') }}"
+                  href="{{ url_for('main.genre', genre_name='Acción', pag=1) }}"
                   class="dropdown-item"
                   >Acción</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Aventura') }}"
+                  href="{{ url_for('main.genre', genre_name='Aventura', pag=1) }}"
                   class="dropdown-item"
                   >Aventura</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Animación') }}"
+                  href="{{ url_for('main.genre', genre_name='Animación', pag=1) }}"
                   class="dropdown-item"
                   >Animación</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Comedia') }}"
+                  href="{{ url_for('main.genre', genre_name='Comedia', pag=1) }}"
                   class="dropdown-item"
                   >Comedia</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Crimen') }}"
+                  href="{{ url_for('main.genre', genre_name='Crimen', pag=1) }}"
                   class="dropdown-item"
                   >Crimen</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Documental') }}"
+                  href="{{ url_for('main.genre', genre_name='Documental', pag=1) }}"
                   class="dropdown-item"
                   >Documentales</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Drama') }}"
+                  href="{{ url_for('main.genre', genre_name='Drama', pag=1) }}"
                   class="dropdown-item"
                   >Drama</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Familia') }}"
+                  href="{{ url_for('main.genre', genre_name='Familia', pag=1) }}"
                   class="dropdown-item"
                   >Familiares</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Fantasía') }}"
+                  href="{{ url_for('main.genre', genre_name='Fantasía', pag=1) }}"
                   class="dropdown-item"
                   >Fantasía</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Historia') }}"
+                  href="{{ url_for('main.genre', genre_name='Historia', pag=1) }}"
                   class="dropdown-item"
                   >Historia</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Terror') }}"
+                  href="{{ url_for('main.genre', genre_name='Terror', pag=1) }}"
                   class="dropdown-item"
                   >Terror</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Música') }}"
+                  href="{{ url_for('main.genre', genre_name='Música', pag=1) }}"
                   class="dropdown-item"
                   >Musical</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Misterio') }}"
+                  href="{{ url_for('main.genre', genre_name='Misterio', pag=1) }}"
                   class="dropdown-item"
                   >Misterio</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Romance') }}"
+                  href="{{ url_for('main.genre', genre_name='Romance', pag=1) }}"
                   class="dropdown-item"
                   >Romance</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Ciencia ficción') }}"
+                  href="{{ url_for('main.genre', genre_name='Ciencia ficción', pag=1) }}"
                   class="dropdown-item"
                   >Ciencia ficcion</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Suspense') }}"
+                  href="{{ url_for('main.genre', genre_name='Suspense', pag=1) }}"
                   class="dropdown-item"
                   >Suspenso</a
                 >
                 <a
-                  href="{{ url_for('main.genre', genre_name='Bélica') }}"
+                  href="{{ url_for('main.genre', genre_name='Bélica', pag=1) }}"
                   class="dropdown-item"
                   >Bélico</a
                 >
               </div>
             </li>
+            <!-- ITEM -->
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('person.persons') }}">
+              <a class="nav-link" href="{{ url_for('person.persons', pag=1) }}">
                 Personas
               </a>
             </li>
+            <li class="nav-item dropdown">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                id="btn-dropdown-genres"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Series</a
+              >
+              <div class="dropdown-menu" aria-labelledby="btn-dropdown-genres">
+                <a
+                  href="{{ url_for('series.series_populares', pag=1) }}"
+                  class="dropdown-item"
+                  >Populares</a
+                >
+                <a
+                  href="{{ url_for('series.series_top_rated', pag=1) }}"
+                  class="dropdown-item"
+                  >Más valorados</a
+                >
+              </div>
+            </li>
           </ul>
+          <!-- ITEMS A LA DERECHA DE LA BARRA DE NAVEGACION -->
           {% if current_user.is_anonymous %}
+          <!-- SI EL USUARIO NO ESTÁ LOGUEADO SE MUESTRA ESTO -->
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.login') }}"
@@ -146,6 +205,7 @@
             </li>
           </ul>
           {% else %}
+          <!-- SI EL USUARIO ESTÁ LOGUEADO SE MUESTRA ESTO -->
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="#">{{ current_user.username }}</a>
@@ -158,6 +218,7 @@
           </ul>
           {% endif %}
         </div>
+        <!-- FORMULARIO DE BUSQUEDA -->
         <form
           action="{{ url_for('main.search') }}"
           method="POST"
@@ -176,8 +237,12 @@
           </div>
         </form>
       </nav>
+      <!-- FIN BARRA DE NAVEGACION -->
     </div>
-    {% block content %} {% endblock %}
+    <div class="pt-5">
+      {% block content %} {% endblock %}
+    </div>
+    
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

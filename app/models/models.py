@@ -18,8 +18,13 @@ class Usuario(Base, UserMixin):
 
     comments = relationship("Comentario", backref='user')
 
-    def __set_password(self, password):
-        return generate_password_hash(password)
+    def __init__(self, username, password, email) -> None:
+        self.username = username
+        self.password = password
+        self.email = email
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
 
     def check_password(self, password) -> bool:
         return check_password_hash(self.password, password)
@@ -32,12 +37,14 @@ class Movie(Base):
     titulo = Column(String(250), unique=True)
     descripcion = Column(String(500))
     portada = Column(String(250))
-    fecha = Column(Date)
+    fecha = Column(String(250))
     video = Column(String(250))
 
     comments = relationship("Comentario", backref='movie')
     generos = relationship(
         "Genero", secondary="genre_movie", back_populates="peliculas")
+    personas = relationship("Person", secondary="person_movie",
+                            back_populates="peliculas")
 
 
 class Genero(Base):
@@ -75,3 +82,29 @@ class Person(Base):
     id = Column(Integer, primary_key=True)
     nombre = Column(String(255))
     perfil = Column(String(255))
+    fecha_nacimiento = Column(String(255))
+    biografia = Column(String(255))
+
+    peliculas = relationship("Movie", secondary="person_movie",
+                             back_populates="personas")
+
+
+class PersonMovie(Base):
+    __tablename__ = 'person_movie'
+
+    id_person = Column(Integer, ForeignKey('persona.id'), primary_key=True)
+    id_movie = Column(Integer, ForeignKey('pelicula.id'), primary_key=True)
+
+    persona = relationship("Person", backref="person_movie")
+    pelicula = relationship("Movie", backref="person_movie")
+
+
+class Serie(Base):
+    __tablename__ = 'serie'
+
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(250))
+    descripcion = Column(String(500))
+    fecha = Column(String(250))
+    portada = Column(String(250))
+    video = Column(String(250))

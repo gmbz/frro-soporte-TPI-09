@@ -1,0 +1,53 @@
+{% extends 'layout.html' %} 
+{% block title %} Index {% endblock %} 
+{% block content %}
+
+<div class="container">
+  <div class="row mt-4">
+    <!-- PERFIL -->
+    <div class="col-4">
+      <div class="card bg-dark">
+        <img class="card-img"src="{{ p.perfil }}" />
+      </div>
+    </div>
+    <!-- NOMBRE Y BIOGRAFIA -->
+    <div class="col-8">
+      <h5>{{ p.nombre }}</h5>
+      <p>{{ p.biografia }}</p>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>Interpretación</h2>
+  <div class="card bg-dark shadow">
+    <!-- LISTADO DE INTERPRETACIONES -->
+      <ul class="list-group">
+        {% for m in p.peliculas %}
+        <li class="list-group-item bg-dark">
+          <a class="card-link d-inline-flex" href="{{ url_for('main.movie_id', id_movie=m.id) }}">
+            <p class="text-light card-title"><strong>{{ m.titulo }}</strong></p>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+  </div>
+  
+  <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
+    {% for m in p.peliculas %}
+    <div class="col mx-auto">
+      <a href="">
+        <div class="card bg-dark">
+          <img src="{{ m.portada }}" alt="Portada" class="card-img" />
+        </div>
+      </a>
+      <div>
+        <h6>{{ m.titulo }}</h6>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

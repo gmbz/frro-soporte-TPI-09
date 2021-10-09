@@ -8,12 +8,12 @@ from .db import session
 api_key = "25398bd0f8e1460f3769b59bfbf5eea6"
 
 
-def lista_popular() -> List[Movie]:
+def lista_popular(pag: str) -> List[Movie]:
     """Devuelve lista de peliculas populares.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/movie/popular?api_key="+api_key +
-        "&language=es-ES")).json()
+        "&language=es-ES&page="+pag)).json()
     lista = []
     for data in query['results']:
         peli = Movie(id=data['id'],
@@ -64,8 +64,24 @@ def movie(movie_: Movie) -> Movie:
     return peli
 
 
+def movie_without_genre(movie_: Movie) -> Movie:
+    """Devuelve la instancia de la pelicula, sin generos, dado su id.
+    """
+    id_ = str(movie_.id)
+    query = (requests.get("https://api.themoviedb.org/3/movie/" +
+             id_+"?api_key="+api_key+"&language=es-ES")).json()
+    peli = Movie(id=query['id'],
+                 titulo=query['title'],
+                 descripcion=query['overview'],
+                 portada="https://image.tmdb.org/t/p/w500/" +
+                 query['poster_path'],
+                 fecha=query['release_date'],
+                 video=get_video(id_))
+    return peli
+
+
 def get_video(id_: str) -> Optional[str]:
-    """Devuelve la direccion del trailer de youtube dadu su id.
+    """Devuelve la direccion del trailer de youtube dado su id.
     Devuelve None si no encuentra nada.
     """
     query = (requests.get("https://api.themoviedb.org/3/movie/" +
@@ -110,28 +126,29 @@ def set_genre(movie_: Movie, genres_: Iterable[dict]):
 
 
 def get_in_db(movie_: Movie) -> Optional[Movie]:
-    """Devuelve la instancia de la pelicula guardada en la base de dados dado 
+    """Devuelve la instancia de la pelicula guardada en la base de dados dado
     su id.
     """
     return session.query(Movie).get(movie_.id)
 
 
-def get_by_genre(genre_: Genero) -> List[Movie]:
+def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
     """Devuelve listado de todas las peliculas dado un genero.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/discover/movie?api_key="+api_key +
-        "&language=es-ES&sort_by=popularity.desc&with_genres="+str(
+        "&language=es-ES&page="+pag+"&sort_by=popularity.desc&with_genres="+str(
             genre_.id))).json()
     lista = []
     for data in query['results']:
-        peli = Movie(id=data['id'],
-                     titulo=data['title'],
-                     descripcion=data['overview'],
-                     portada="https://image.tmdb.org/t/p/original/" +
-                     data['poster_path'],
-                     fecha=data['release_date'])
-        lista.append(peli)
+        if data['poster_path']:
+            peli = Movie(id=data['id'],
+                        titulo=data['title'],
+                        descripcion=data['overview'],
+                        portada="https://image.tmdb.org/t/p/original/" +
+                        data['poster_path'],
+                        fecha=data['release_date'])
+            lista.append(peli)
     return lista
 
 
@@ -166,19 +183,38 @@ def trending_day() -> List[Movie]:
     return lista
 
 
-def top_rated() -> List[Movie]:
+def top_rated(pag: str) -> List[Movie]:
     """Devuelve lista del top de peliculas.
     """
     query = (requests.get(
-        "https://api.themoviedb.org/3/movie/top_rated?api_key="+api_key)
-    ).json()
+        "https://api.themoviedb.org/3/movie/top_rated?api_key="+api_key +
+        "&language=es-ES&page="+pag)).json()
     lista = []
     for data in query['results']:
-        peli = Movie(id=data['id'],
-                     titulo=data['title'],
-                     descripcion=data['overview'],
-                     portada="https://image.tmdb.org/t/p/original/" +
-                     data['poster_path'],
-                     fecha=data['release_date'])
-        lista.append(peli)
+        if data['poster_path']:
+            peli = Movie(id=data['id'],
+                         titulo=data['title'],
+                         descripcion=data['overview'],
+                         portada="https://image.tmdb.org/t/p/original/" +
+                         data['poster_path'],
+                         fecha=data['release_date'])
+            lista.append(peli)
+    return lista
+
+
+def upcoming(pag: str) -> List[Movie]:
+    """Devuelva listado de los proximos estrenos.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/discover/movie?api_key="+api_key +
+             "&language=es-ES&sort_by=popularity.desc&page="+pag+"&primary_release_date.gte=2021-10-10&primary_release_date.lte=2021-12-30&year=2021")).json()
+    lista = []
+    for data in query['results']:
+        if data['poster_path']:
+            peli = Movie(id=data['id'],
+                         titulo=data['title'],
+                         descripcion=data['overview'],
+                         portada="https://image.tmdb.org/t/p/original/" +
+                         data['poster_path'],
+                         fecha=data['release_date'])
+            lista.append(peli)
     return lista

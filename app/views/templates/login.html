@@ -1,11 +1,12 @@
 {% extends 'layout.html' %} 
 {% block title %} Login {% endblock %} 
 {% block content %} 
-{% with messages = get_flashed_messages() %} 
+{% with messages = get_flashed_messages(with_categories=true) %} 
 {% if messages %} 
-{% for msg in messages %}
-<div class="alert alert-success" role="alert">{{ msg }}</div>
+{% for category, msg in messages %}
+<div class="alert alert-{{ category }}" role="alert">{{ msg }}</div>
 {% endfor %} {% endif %} {% endwith %}
+<!-- FORMULARIO DE LOGUEO -->
 <div class="container p-4">
   <div class="col-md-4 offset-md-4 text-center">
     <div class="card">

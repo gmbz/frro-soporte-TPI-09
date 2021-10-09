@@ -16,8 +16,11 @@ def register():
                         password=register_form.password.data,
                         email=register_form.email.data)
         user = register_user(user_)
-        print(user.username)
-        flash(f"Usuario {user.username} registrado")
+        if isinstance(user, Usuario):
+            flash(f"Usuario {user.username} registrado", 'success')
+        else:
+            msg = f"{user}"
+            flash(msg, 'danger')
         return redirect(url_for('auth.register'))
     return render_template('register.html', form=register_form)
 
@@ -28,11 +31,14 @@ def login():
     if request.method == 'POST':
         username_ = login_form.username.data
         password_ = login_form.password.data
-        user_ = autenticacion(username_, password_)
-        login_user(user_)
-        if user_:
-            flash(f"Logueado {current_user.username}")
-        return redirect(url_for('auth.login'))
+        user = autenticacion(username_, password_)
+        if isinstance(user, Usuario):
+            login_user(user)
+            flash(f"Logueado {current_user.username}", 'success')
+        else:
+            msg = f"{user}"
+            flash(msg, 'danger')
+            return redirect(url_for('auth.login'))
     return render_template('login.html', form=login_form)
 
 
