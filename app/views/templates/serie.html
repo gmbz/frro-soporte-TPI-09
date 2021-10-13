@@ -5,17 +5,41 @@ content %}
   <div class="row mt-4">
     <!-- PORTADA -->
     <div class="col-4">
-      <class class="card bg-dark">
+      <class class="card">
         <img src="{{ s.portada }}" />
       </class>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
     <div class="col-8">
-      <h5>{{ s.nombre }}</h5>
-      <p>{{ s.descripcion }}</p>
-      <p>{{ s.id }}</p>
+      <h5>{{ s.nombre }}<span class="text-muted">({{ s.fecha_string }})</span></h5>
+      <p class="text-light">{{ s.descripcion }}</p>
     </div>
   </div>
+  <hr />
+  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+  {% if listas %}
+    {% include 'show_alerts.html' %}
+    <div class="dropdown">
+      <a
+        href="#"
+        class="nav-link dropdown-toggle"
+        id="btn-dropdown-listas"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Agregar a lista</a
+      >
+      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+        {% for l in listas %}
+        <a
+          href="{{ url_for('perfil.add_serie_list', id_serie=s.id, id_lista=l.id) }}"
+          class="dropdown-item"
+          >{{ l.nombre }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
   <hr />
   <h2>Trailer</h2>
   <!-- TRAILER -->
@@ -36,22 +60,10 @@ content %}
 
   <hr />
   <h2>Recomendaciones</h2>
-  <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
-    <!-- LISTADO DE SERIES RECOMENDADAS -->
-    {% for s in rec %}
-    <div class="col mx-auto">
-      <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
-        <div class="card bg-dark">
-          <img src="{{ s.portada }}" alt="Portada" class="card-img" />
-        </div>
-      </a>
-      <div>
-        <h6>{{ s.nombre }}</h6>
-        <p class="font-weight-lighter">{{ s.fecha }}</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  <!-- LISTADO DE SERIES RECOMENDADAS -->
+
+  {% include 'show_series_list.html' %}
+
 </div>
 
 {% endblock %}

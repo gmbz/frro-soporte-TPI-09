@@ -39,7 +39,7 @@ def get_person(person_: Person) -> Person:
     return per
 
 
-def movie_credits(person_: Person):
+def movie_credits(person_: Person) -> None:
     """Setea las peliculas en las que participó la persona.
     """
     id_ = str(person_.id)

@@ -1,0 +1,72 @@
+{% extends 'layout.html' %} {% block title %} Index {% endblock %} {% block
+content %}
+
+<div class="container pt-4">
+  {% include 'show_alerts.html' %}
+
+  <div class="row row-cols-1">
+    <div class="list-group col-4" id="grupo-lista" role="tablist">
+      <a
+        data-toggle="list"
+        role="tab"
+        aria-control="perfil"
+        id="perfil"
+        href="#perfilContenido"
+        class="list-group-item list-group-item-action"
+      >
+        Perfil
+      </a>
+      <a
+        data-toggle="list"
+        role="tab"
+        aria-control="nuevaLista"
+        id="nuevaLista"
+        href="#nuevaListaContenido"
+        class="list-group-item list-group-item-action"
+      >
+        Nueva lista
+      </a>
+      <a
+        data-toggle="list"
+        role="tab"
+        aria-control="misListas"
+        id="misListas"
+        href="#misListasContenido"
+        class="list-group-item list-group-item-action"
+      >
+        Mis Listas
+      </a>
+    </div>
+    <div class="tab-content col-8" id="contenidoLista">
+      <div
+        class="tab-pane fade text-light"
+        role="tabpanel"
+        id="perfilContenido"
+        aria-labelledby="perfil"
+      >
+      Completar perfil Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione quas accusamus, iusto nesciunt neque vitae culpa excepturi non, ipsam nemo omnis minus eligendi placeat distinctio, quo delectus illo fugiat rem.
+      </div>
+      <div
+        class="tab-pane fade text-light"
+        role="tabpanel"
+        id="nuevaListaContenido"
+        aria-labelledby="nuevaLista"
+      >
+      {% include 'new_list_form.html' %}
+      </div>
+      <div
+        class="tab-pane fade"
+        role="tabpanel"
+        id="misListasContenido"
+        aria-labelledby="misListas"
+      >
+      {% include 'mis_listas_usuario.html' %}
+      </div>
+    </div>
+  </div>
+  {% if mi_lista %}
+  {% include 'show_list_content.html' %}
+  {% endif %}
+</div>
+
+{% endblock %}

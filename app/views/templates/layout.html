@@ -10,12 +10,15 @@
       integrity="sha384-enpDwFISL6M3ZGZ50Tjo8m65q06uLVnyvkFO3rsoW0UC15ATBFz3QEhr3hmxpYsn"
       crossorigin="anonymous"
     />
+    <!-- BOOTSWATCH CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"> -->
     <title>{%block title%} {% endblock %}</title>
   </head>
-  <body class="text-light bg-dark">
-    <div class="container-fluid fixed-top bg-dark">
+  <body class="">
+    <div class="container-fluid sticky-top bg-light">
       <!-- BARRA DE NAVEGACIÓN INICIO -->
-      <nav class="navbar navbar-expand-lg navbar-dark">
+      <nav class="navbar navbar-expand-lg navbar-light">
         <!-- LOGO -->
         <a href="{{ url_for('main.home') }}" class="navbar-brand"> XD </a>
         <!-- ICONO PARA PANTALLAS CHICAS -->
@@ -160,10 +163,6 @@
               </div>
             </li>
             <!-- ITEM -->
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('person.persons', pag=1) }}">
-                Personas
-              </a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -188,6 +187,11 @@
                 >
               </div>
             </li>
+            <!-- ITEM -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('person.persons', pag=1) }}">
+                Personas
+              </a>
           </ul>
           <!-- ITEMS A LA DERECHA DE LA BARRA DE NAVEGACION -->
           {% if current_user.is_anonymous %}
@@ -207,13 +211,28 @@
           {% else %}
           <!-- SI EL USUARIO ESTÁ LOGUEADO SE MUESTRA ESTO -->
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{ current_user.username }}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('auth.logout') }}"
-                >Cerrar sesión</a
+            <li class="nav-item dropdown">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                id="btn-dropdown-user"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >{{ current_user.username }}</a
               >
+              <div class="dropdown-menu" aria-labelledby="btn-dropdown-user">
+                <a
+                  href="{{ url_for('perfil.main') }}"
+                  class="dropdown-item"
+                  >Perfil</a
+                >
+                <a
+                  href="{{ url_for('auth.logout') }}"
+                  class="dropdown-item"
+                  >Cerrar sesión</a
+                >
+              </div>
             </li>
           </ul>
           {% endif %}
@@ -232,7 +251,7 @@
               class="form-control"
             />
             <div class="input-group-append">
-              <button class="btn btn-info" type="submit">BUSCAR</button>
+              <button class="btn btn-secondary" type="submit">BUSCAR</button>
             </div>
           </div>
         </form>

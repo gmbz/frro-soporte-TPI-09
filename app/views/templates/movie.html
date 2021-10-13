@@ -6,13 +6,13 @@
   <div class="row mt-4">
     <!-- PORTADA -->
     <div class="col-4">
-      <class class="card bg-dark">
+      <class class="card">
         <img src="{{ mov.portada }}" />
       </class>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
     <div class="col-8">
-      <h5>{{ mov.titulo }}</h5>
+      <h5>{{ mov.titulo }}<span class="text-muted">({{ mov.fecha_string }})</span></h5>
       {% for g in mov.generos %}
       {% if loop.last %}
       <h6 class="d-inline-flex">{{ g.nombre }}</h6>
@@ -21,11 +21,70 @@
       <p class="d-inline-flex">&#9900</p>
       {% endif %}
       {% endfor %}
-      <p>{{ mov.descripcion }}</p>
-      <p>{{ mov.id }}</p>
+      <p class="text-light">{{ mov.descripcion }}</p>
     </div>
   </div>
   <hr />
+  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+  {% if listas %}
+    {% include 'show_alerts.html' %}
+    <div class="dropdown">
+      <a
+        href="#"
+        class="nav-link dropdown-toggle"
+        id="btn-dropdown-listas"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Agregar a lista</a
+      >
+      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+        {% for l in listas %}
+        <a
+          href="{{ url_for('perfil.add_movie_list', id_movie=mov.id, id_lista=l.id) }}"
+          class="dropdown-item"
+          >{{ l.nombre }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  
+  <hr>
+  
+  <h2>Reparto</h2>
+
+  <div class="table-responsive">
+    <!-- TABLA DEL CAST DE LA PELICULA -->
+    <table class="table">
+      <thead>
+        <tr>
+          {% for p in reparto %}
+          <!-- PORTADAS -->
+          <th class="align-top">
+            <div class="d-inline-flex flex-row align-items-start">
+              <a href="{{ url_for('person.person_id', id_person=p.id) }}">
+                <div class="card" style="width: 13rem">
+                  <img
+                    class="card-img-top"
+                    src="{{ p.perfil }}"
+                    width="280px"
+                    height="296px"
+                  />
+                </div>
+                <div class="card-body">
+                  <h5>{{ p.nombre }}</h5>
+                </div>
+              </a>
+            </div>
+          </th>
+          {% endfor %}
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <hr />
+
   <h2>Trailer</h2>
   <!-- TRAILER -->
   {% if mov.video %}
@@ -43,28 +102,15 @@
   </div>
   {% endif %}
   <hr />
-  <h2>Relacionados</h2>
-  <div class="row row-cols-lg-4 row-cols-md-2 mt-2">
-    <!-- LISTADO DE PELICULAS RELACIONADAS -->
-    {% for p in sim %}
-    <div class="col mx-auto">
-      <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-        <div class="card bg-dark">
-          <img src="{{ p.portada }}" alt="Portada" class="card-img" />
-        </div>
-      </a>
-      <div>
-        <h6>{{ p.titulo }}</h6>
-        <p class="font-weight-lighter">{{ p.fecha }}</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  <h2>Recomendaciones</h2>
+  <!-- LISTADO DE PELICULAS RECOMENDADAS -->
+
+  {% include 'show_movies_list.html' %}
 
   <h2>Comentarios</h2>
 
-  <div class="row justify-content">
-    <div class="col-8">
+  <div class="row row-cols-1 justify-content">
+    <div class="col">
       <!-- FORMULARIO PARA NUEVO COMENTARIO -->
       <form action="{{ url_for('main.movie_comment') }}" method="POST">
         <input type="hidden" name="IdMovie" value="{{ mov.id }}" />
@@ -80,7 +126,10 @@
           <h5>[imagen]</h5>
         </div>
         <div class="media-body ml-2">
-          <h5 class="media-heading">{{ c.user.username }}</h5>
+          <div class="d-flex">
+            <h5 class="media-heading">{{ c.user.username }}</h5>
+            <small class="text-muted ml-auto">{{ c.fecha }}</small>
+          </div>
           <p>{{ c.contenido }}</p>
         </div>
       </div>

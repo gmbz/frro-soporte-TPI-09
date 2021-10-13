@@ -1,0 +1,32 @@
+<div class="list-group">
+  <!-- LISTADO DE LISTAS XD -->
+  {% for lista in mis_listas %}
+  <div class="list-group-item list-group-item-action d-flex">
+    <div>
+      {{ lista.nombre }}
+      <span class="badge bg-light text-dark rounded-pill"
+        >Peliculas {{ lista.peliculas|length }}</span
+      >
+      <span class="badge bg-light text-dark rounded-pill"
+        >Series {{ lista.series|length }}</span
+      >
+    </div>
+    <div class="ml-auto">
+      <a
+        class="btn btn-primary btn-sm"
+        href="{{ url_for('perfil.main', id_lista=lista.id) }}"
+        role="button"
+      >
+        Ver
+      </a>
+      <a
+        class="btn btn-danger btn-sm"
+        href="{{ url_for('perfil.eliminar_lista', id_lista=lista.id) }}"
+        role="button"
+      >
+        Eliminar
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>

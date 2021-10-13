@@ -128,7 +128,7 @@ content %}
           <!-- PORTADAS -->
           <th>
             <div class="d-inline-flex flex-row align-items-start">
-              <div class="card bg-dark" style="width: 18rem">
+              <div class="card" style="width: 18rem">
                 <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
                   <img
                     class="card-img-top"
@@ -173,7 +173,7 @@ content %}
           <!-- PORTADAS -->
           <th class="align-top">
             <div class="d-inline-flex flex-row align-items-start">
-              <div class="card bg-dark border-dark" style="width: 18rem">
+              <div class="" style="width: 18rem">
                 <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
                   <img
                     class="card-img-top"
@@ -190,7 +190,7 @@ content %}
                   >
                     <strong>{{ p.titulo }}</strong></a
                   >
-                  <p class="card-text text-light">{{ p.fecha }}</p>
+                  <p class="card-text text-light">{{ p.fecha_string }}</p>
                 </div>
               </div>
             </div>
@@ -212,7 +212,7 @@ content %}
           <!-- PORTADAS -->
           <th class="align-top">
             <div class="d-inline-flex flex-row align-items-start">
-              <div class="card bg-dark border-dark" style="width: 18rem">
+              <div class="card" style="width: 18rem">
                 <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
                   <img
                     class="card-img-top"
@@ -227,7 +227,7 @@ content %}
                   href="{{ url_for('main.movie_id', id_movie=p.id) }}"
                   ><strong>{{ p.titulo }}</strong></a
                 >
-                <p class="card-text text-light">{{ p.fecha }}</p>
+                <p class="card-text text-light">{{ p.fecha_string }}</p>
               </div>
             </div>
           </th>

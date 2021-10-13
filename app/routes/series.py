@@ -1,7 +1,9 @@
 from flask import Blueprint, request, redirect, url_for, render_template
 from flask_login import current_user
 
+from ..models.models import Usuario
 from ..controller.series_controller import get_details, lista_popular, lista_recomendations, lista_top_rated
+from ..controller.listas_controller import listado_por_usuario
 
 series = Blueprint("series", __name__)
 
@@ -20,7 +22,15 @@ def series_populares(pag):
 def serie_details(id_serie):
     serie = get_details(id_serie)
     recomendations = lista_recomendations(id_serie)
-    return render_template('serie.html', s=serie, rec=recomendations)
+    if not current_user.is_anonymous:
+        # SI EL USUARIO ESTA LOGUEADO, SE ENVIA LA LISTA DE "MIS LISTAS"
+        id_user = current_user.id
+        user = Usuario(id=id_user)
+        listas_del_usuario = listado_por_usuario(user)
+        return render_template('serie.html', s=serie, lista=recomendations,
+                               listas=listas_del_usuario)
+    # SI NO ESTA LOGUEADO SE RENDERIZA EL HTML NORMALMENTE
+    return render_template('serie.html', s=serie, lista=recomendations)
 
 
 @series.route('/series/top_rated/page=<pag>', methods=['GET'])

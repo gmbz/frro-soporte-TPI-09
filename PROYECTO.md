@@ -20,28 +20,26 @@ Definir la arquitectura del sistema y como interactuan sus diferentes componente
 
 Definir los requerimientos del sistema.
 
+### Funcionales
+
+Listado y descripción breve de los requerimientos funcionales.
+
 |REQ|Descripción|
 |:---:|:---|
 |01|Registrar nuevo usuario|
 |02|Autenticar usuario|
 |03|Registrar nuevo comentario|
-|04|Eliminar comentario|
-|05|Mostrar lista películas populares|
-|06|Agregar película a lista Mis Favoritos|
-|07|Buscar pelicula por nombre|
-|08|Cambiar imagen de perfil de usuario|
-|09|Valorar comentario de otro usuario (upvote o downvote)|
-|10|Mostrar informacion de película|
-|11|Mostrar últimos estrenos|
-|12|Mostrar tendencias|
-|13|Crear listas personalizadas|
-|14|Mostrar información de actores/productores|
-|15|Mostrar películas filtradas por año de estreno|
-|16|Mostrar películas filtradas por género|
-
-### Funcionales
-
-Listado y descripción breve de los requerimientos funcionales.
+|04|Mostrar lista películas populares|
+|05|Agregar película a lista personalizada|
+|06|Buscar pelicula por nombre|
+|07|Cambiar imagen de perfil de usuario|
+|08|Valorar comentario (upvote o downvote)|
+|09|Mostrar informacion de película|
+|10|Mostrar próximos estrenos|
+|11|Mostrar tendencias|
+|12|Crear listas personalizadas|
+|13|Mostrar información de actores/productores|
+|14|Mostrar películas filtradas por género|
 
 ### No Funcionales
 
@@ -106,7 +104,6 @@ Se utilizó una base de datos sqlite3 y como ORM se utilizó sqlalchemy para man
 ### Capa de Negocio
 
 Para obtener la información de las películas, consumimos la API de TMDB, la cual es una API pública. Para realizar las consultas se necesita una "api key", la cual solicitamos y utilizamos
-Api key: 25398bd0f8e1460f3769b59bfbf5eea6
 
 ### Capa de Presentación
 

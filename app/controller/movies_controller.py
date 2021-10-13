@@ -1,6 +1,6 @@
 from typing import List
 from ..database import movie_db
-from ..models.models import Movie, Genero
+from ..models.models import Movie, Genero, Person
 
 
 def popular(pag: str) -> List[Movie]:
@@ -17,8 +17,16 @@ def movie(movie_: Movie) -> Movie:
     return movie_db.movie(movie_)
 
 
-def similiares(movie_: Movie) -> Movie:
+def similiares(movie_: Movie) -> List[Movie]:
     return movie_db.get_similar(movie_)
+
+
+def get_recommendations(movie_: Movie) -> List[Movie]:
+    return movie_db.recommendations(movie_)
+
+
+def get_movie_credits(movie_: Movie) -> List[Person]:
+    return movie_db.movie_credits(movie_)
 
 
 def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
@@ -66,6 +74,7 @@ def generador_listas(lista):
         _listado = next(g)
         listado.append(_listado)
     return listado
+
 
 def calcula_paginas(pag: str):
     """Calcula los numeros que se van a mostrar en la paginación.

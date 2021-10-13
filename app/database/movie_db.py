@@ -1,7 +1,8 @@
 from typing import List, Iterable, Optional
 import requests
+import datetime
 
-from ..models.models import Genero, Movie
+from ..models.models import Genero, Movie, Person
 from .db import session
 
 
@@ -21,7 +22,10 @@ def lista_popular(pag: str) -> List[Movie]:
                      descripcion=data['overview'],
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
-                     fecha=data['release_date'])
+                     fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d")
+                     )
+        set_fecha(peli)
         lista.append(peli)
     return lista
 
@@ -36,13 +40,17 @@ def search(movie_: Movie) -> List[Movie]:
     lista = []
     for data in pelicula:
         if data['poster_path']:
-            peli = Movie(id=data['id'],
-                         titulo=data['title'],
-                         descripcion=data['overview'],
-                         portada="https://image.tmdb.org/t/p/w500/" +
-                         data['poster_path'],
-                         fecha=data['release_date'])
-            lista.append(peli)
+            if data['release_date']:
+                peli = Movie(id=data['id'],
+                             titulo=data['title'],
+                             descripcion=data['overview'],
+                             portada="https://image.tmdb.org/t/p/w500/" +
+                             data['poster_path'],
+                             fecha_date=datetime.datetime.strptime(
+                             data['release_date'], "%Y-%m-%d")
+                             )
+                set_fecha(peli)
+                lista.append(peli)
     return lista
 
 
@@ -58,8 +66,10 @@ def movie(movie_: Movie) -> Movie:
                  descripcion=query['overview'],
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
-                 fecha=query['release_date'],
+                 fecha_date=datetime.datetime.strptime(
+                     query['release_date'], "%Y-%m-%d"),
                  video=get_video(id_))
+    set_fecha(peli)
     set_genre(peli, genres)
     return peli
 
@@ -75,8 +85,10 @@ def movie_without_genre(movie_: Movie) -> Movie:
                  descripcion=query['overview'],
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
-                 fecha=query['release_date'],
+                 fecha_date=datetime.datetime.strptime(
+                     query['release_date'], "%Y-%m-%d"),
                  video=get_video(id_))
+    set_fecha(peli)
     return peli
 
 
@@ -98,7 +110,8 @@ def get_video(id_: str) -> Optional[str]:
 
 
 def get_similar(movie_: Movie) -> List[Movie]:
-    """Devuelve lista de peliculas similares dado una pelicula.
+    """
+    Devuelve lista de peliculas similares dado una pelicula.
     """
     id_ = str(movie_.id)
     query = (requests.get("https://api.themoviedb.org/3/movie/"+id_ +
@@ -112,7 +125,9 @@ def get_similar(movie_: Movie) -> List[Movie]:
                      descripcion=data['overview'],
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
-                     fecha=data['release_date'])
+                     fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d"))
+        set_fecha(peli)
         lista.append(peli)
     return lista
 
@@ -143,11 +158,13 @@ def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
     for data in query['results']:
         if data['poster_path']:
             peli = Movie(id=data['id'],
-                        titulo=data['title'],
-                        descripcion=data['overview'],
-                        portada="https://image.tmdb.org/t/p/original/" +
-                        data['poster_path'],
-                        fecha=data['release_date'])
+                         titulo=data['title'],
+                         descripcion=data['overview'],
+                         portada="https://image.tmdb.org/t/p/original/" +
+                         data['poster_path'],
+                         fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d"))
+            set_fecha(peli)
             lista.append(peli)
     return lista
 
@@ -178,13 +195,24 @@ def trending_day() -> List[Movie]:
                      descripcion=data['overview'],
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
-                     fecha=data['release_date'])
+                     fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d")
+                     )
+        set_fecha(peli)
         lista.append(peli)
     return lista
 
 
+def set_fecha(peli: Movie) -> None:
+    """
+    Setea la fecha que se mostrará en la web.
+    """
+    peli.fecha_string = peli.fecha_date.strftime("%d %b %Y")
+
+
 def top_rated(pag: str) -> List[Movie]:
-    """Devuelve lista del top de peliculas.
+    """
+    Devuelve lista del top de peliculas.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/movie/top_rated?api_key="+api_key +
@@ -197,13 +225,16 @@ def top_rated(pag: str) -> List[Movie]:
                          descripcion=data['overview'],
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
-                         fecha=data['release_date'])
+                         fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d"))
+            set_fecha(peli)
             lista.append(peli)
     return lista
 
 
 def upcoming(pag: str) -> List[Movie]:
-    """Devuelva listado de los proximos estrenos.
+    """
+    Devuelva listado de los proximos estrenos.
     """
     query = (requests.get("https://api.themoviedb.org/3/discover/movie?api_key="+api_key +
              "&language=es-ES&sort_by=popularity.desc&page="+pag+"&primary_release_date.gte=2021-10-10&primary_release_date.lte=2021-12-30&year=2021")).json()
@@ -215,6 +246,59 @@ def upcoming(pag: str) -> List[Movie]:
                          descripcion=data['overview'],
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
-                         fecha=data['release_date'])
+                         fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d"))
+            set_fecha(peli)
             lista.append(peli)
+    return lista
+
+
+def set_movie(movie: Movie) -> None:
+    """
+    Setea los datos de una pelicula.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/movie/" +
+             str(movie.id)+"?api_key="+api_key+"&language=es-ES")).json()
+    movie.titulo = query['title']
+    movie.descripcion = query['overview']
+    movie.portada = "https://image.tmdb.org/t/p/w500/" + query['poster_path']
+    movie.fecha = query['release_date']
+
+
+def recommendations(movie_: Movie) -> List[Movie]:
+    """
+    Devuelve listado de peliculas recomendadas dado una pelicula.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/movie/"+str(movie_.id)
+                          + "/recommendations?api_key="+api_key +
+                          "&language=es-ES")).json()
+    lista = []
+    for data in query['results']:
+        if data['poster_path']:
+            peli = Movie(id=data['id'],
+                         titulo=data['title'],
+                         descripcion=data['overview'],
+                         portada="https://image.tmdb.org/t/p/original/" +
+                         data['poster_path'],
+                         fecha_date=datetime.datetime.strptime(
+                         data['release_date'], "%Y-%m-%d"))
+            set_fecha(peli)
+            lista.append(peli)
+    return lista
+
+
+def movie_credits(movie_: Movie) -> List[Person]:
+    """
+    Devuelve listado que contiene el reparto de la pelicula.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/movie/" +
+             str(movie_.id)+"/credits?api_key="+api_key)).json()
+    lista = []
+    for data in query['cast']:
+        if data['profile_path']:
+            per = Person(id=data['id'],
+                         nombre=data['name'],
+                         perfil="https://image.tmdb.org/t/p/original/" +
+                         data['profile_path'])
+            lista.append(per)
     return lista

@@ -2,10 +2,12 @@ from flask import Blueprint, request, redirect, url_for, render_template
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from ..models.models import Genero, Movie, Comentario
-from ..controller.movies_controller import popular, search_movie, movie, similiares, get_by_genre, trending_day, top_rated
-from ..controller.comments_controller import lista_por_pelicula, registrar_comentario
+from app.database.movie_db import recommendations
 
+from ..models.models import Genero, Movie, Comentario, Usuario
+from ..controller.movies_controller import get_movie_credits, popular, search_movie, movie, get_by_genre, trending_day, top_rated
+from ..controller.comments_controller import lista_por_pelicula, registrar_comentario
+from ..controller.listas_controller import listado_por_usuario
 
 main = Blueprint("main", __name__)
 
@@ -25,17 +27,27 @@ def home():
 def search():
     pelicula = Movie(titulo=request.form['search'])
     movies = search_movie(pelicula)
-    return render_template('index.html', lista=movies)
+    return render_template('populares.html', lista=movies)
 
 
 @main.route('/movie/<id_movie>', methods=['GET'])
 def movie_id(id_movie):
     pelicula = Movie(id=int(id_movie))
     peli = movie(pelicula)
-    similiar = similiares(pelicula)
+    rec = recommendations(pelicula)
     comentarios = lista_por_pelicula(pelicula)
-    return render_template('movie.html', mov=peli, sim=similiar,
-                           com=comentarios)
+    reparto = get_movie_credits(pelicula)
+    if not current_user.is_anonymous:
+        # SI EL USUARIO ESTA LOGUEADO, SE ENVIA LA LISTA DE "MIS LISTAS"
+        id_user = current_user.id
+        user = Usuario(id=id_user)
+        listas_del_usuario = listado_por_usuario(user)
+        return render_template('movie.html', mov=peli, lista=rec,
+                               com=comentarios, listas=listas_del_usuario,
+                               reparto=reparto)
+    # SI NO ESTA LOGUEADO SE RENDERIZA EL HTML NORMALMENTE
+    return render_template('movie.html', mov=peli, lista=rec,
+                           com=comentarios, reparto=reparto)
 
 
 @main.route('/comment/', methods=['POST'])
@@ -54,6 +66,6 @@ def genre(genre_name, pag):
     peliculas, paginas = get_by_genre(genre_, pag)
     lista_paginas, prev_pag, next_pag = paginas
     url = 'main.genre'
-    
-    return render_template('genre.html', peli=peliculas, pages=lista_paginas,
+
+    return render_template('genre.html', lista=peliculas, pages=lista_paginas,
                            prev=prev_pag, next=next_pag, url=url, genre_name=genre_name)

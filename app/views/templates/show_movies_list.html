@@ -1,0 +1,21 @@
+<div class="row row-cols-lg-4 row-cols-md-2 row-cols-1">
+  {% for p in lista %}
+  <!-- LISTADO DE PELICULAS -->
+  <div class="col mx-auto">
+    <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ p.portada }}"
+          width="253px"
+          height="379px"
+        />
+      </div>
+			<div class="card-body">
+				<h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+				<p class="text-muted">{{ p.fecha_string }}</p>
+			</div>
+    </a>
+  </div>
+  {% endfor %}
+</div>

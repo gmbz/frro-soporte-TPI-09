@@ -1,0 +1,49 @@
+<hr class="mt-5">
+<div class="row row-cols-md-2 row-cols-sm-1 pt-1">
+  <!-- LISTADO DE PELICULAS -->
+  <div class="col">
+    <h2>Peliculas</h2>
+    {% for p in mi_lista.peliculas %}
+    <div class="pb-3">
+      <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
+        <div class="card flex-row shadow">
+          <img
+            class="card-img-left"
+            src="{{ p.portada }}"
+            width="150px"
+            height="225px"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ p.titulo }}</h5>
+            <p class="card-text">{{ p.fecha }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    {% endfor %}
+  </div>
+
+  <!-- LISTADO DE SERIES -->
+  <div class="col">
+    <h2>Series</h2>
+    {% for s in mi_lista.series %}
+    <div class="pb-3">
+      <a href="{{ url_for('series.serie_details', id_serie=s.id)}}">
+        <div class="card flex-row shadow">
+          <img
+            class="card-img-left"
+            src="{{ s.portada }}"
+            width="150px"
+            height="225px"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ s.nombre }}</h5>
+            <p class="card-text">{{ s.fecha }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>

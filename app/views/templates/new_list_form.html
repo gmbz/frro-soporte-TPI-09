@@ -1,0 +1,8 @@
+<div class="row">
+  <form action="{{ url_for('perfil.nueva_lista') }}" method="POST">
+    <div class="form-group">
+			{{ form.nombre.label() }} {{ form.nombre(class="") }}
+		</div>
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>

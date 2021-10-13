@@ -1,7 +1,9 @@
-from typing import List, Iterable, Optional
+import datetime
+from typing import List, Optional
 import requests
 
 from ..models.models import Serie
+from .db import session
 
 api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
 
@@ -18,7 +20,10 @@ def lista_popular(pag: str) -> List[Serie]:
                           descripcion=data['overview'],
                           portada="https://image.tmdb.org/t/p/original/" +
                           data['poster_path'],
-                          fecha=data['first_air_date'])
+                          fecha_date=datetime.datetime.strptime(
+                              data['first_air_date'], "%Y-%m-%d")
+                          )
+            set_fecha(serie)
             lista.append(serie)
     return lista
 
@@ -32,8 +37,10 @@ def details(id_serie: str) -> Serie:
                   descripcion=query['overview'],
                   portada="https://image.tmdb.org/t/p/original/" +
                   query['poster_path'],
-                  fecha=query['first_air_date'],
+                  fecha_date=datetime.datetime.strptime(
+                      query['first_air_date'], "%Y-%m-%d"),
                   video=get_video(id_serie))
+    set_fecha(serie)
     return serie
 
 
@@ -66,7 +73,10 @@ def lista_top_rated(pag: str) -> List[Serie]:
                           descripcion=data['overview'],
                           portada="https://image.tmdb.org/t/p/original/" +
                           data['poster_path'],
-                          fecha=data['first_air_date'])
+                          fecha_date=datetime.datetime.strptime(
+                              data['first_air_date'], "%Y-%m-%d")
+                          )
+            set_fecha(serie)
             lista.append(serie)
     return lista
 
@@ -83,6 +93,23 @@ def lista_recomendations(id_serie: str) -> List[Serie]:
                           descripcion=data['overview'],
                           portada="https://image.tmdb.org/t/p/original/" +
                           data['poster_path'],
-                          fecha=data['first_air_date'])
+                          fecha_date=datetime.datetime.strptime(
+                              data['first_air_date'], "%Y-%m-%d")
+                          )
+            set_fecha(serie)
             lista.append(serie)
     return lista
+
+
+def get_in_db(serie_: Serie) -> Optional[Serie]:
+    """Devuelve la instancia de la serie guardada en la base de dados dado
+    su id.
+    """
+    return session.query(Serie).get(serie_.id)
+
+
+def set_fecha(serie: Serie) -> None:
+    """
+    Setea la fecha que se mostrará en la web.
+    """
+    serie.fecha_string = serie.fecha_date.strftime("%d %b %Y")

@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.sqltypes import Date
+from sqlalchemy.sql.sqltypes import DATE, DATETIME
 from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
@@ -17,11 +17,7 @@ class Usuario(Base, UserMixin):
     email = Column(String(250))
 
     comments = relationship("Comentario", backref='user')
-
-    def __init__(self, username, password, email) -> None:
-        self.username = username
-        self.password = password
-        self.email = email
+    listas = relationship("MisListas", backref='user')
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -37,7 +33,8 @@ class Movie(Base):
     titulo = Column(String(250), unique=True)
     descripcion = Column(String(500))
     portada = Column(String(250))
-    fecha = Column(String(250))
+    fecha_date = Column(DATE)
+    fecha_string = Column(String(250))
     video = Column(String(250))
 
     comments = relationship("Comentario", backref='movie')
@@ -45,6 +42,7 @@ class Movie(Base):
         "Genero", secondary="genre_movie", back_populates="peliculas")
     personas = relationship("Person", secondary="person_movie",
                             back_populates="peliculas")
+    listas = relationship("MisListas")
 
 
 class Genero(Base):
@@ -72,6 +70,7 @@ class Comentario(Base):
 
     id = Column(Integer, primary_key=True)
     contenido = Column(String(250))
+    fecha = Column(DATETIME)
     id_usuario = Column(Integer, ForeignKey('usuario.id'))
     id_pelicula = Column(Integer, ForeignKey('pelicula.id'))
 
@@ -105,6 +104,42 @@ class Serie(Base):
     id = Column(Integer, primary_key=True)
     nombre = Column(String(250))
     descripcion = Column(String(500))
-    fecha = Column(String(250))
+    fecha_date = Column(DATE)
+    fecha_string = Column(String(250))
     portada = Column(String(250))
     video = Column(String(250))
+
+    listas = relationship("MisListas")
+
+
+class MisListas(Base):
+    __tablename__ = 'mis_listas'
+
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(255))
+    id_user = Column(Integer, ForeignKey('usuario.id'))
+    id_movie = Column(Integer, ForeignKey('pelicula.id'))
+    id_serie = Column(Integer, ForeignKey('serie.id'))
+
+    peliculas = relationship("Movie", secondary='mis_listas_movie')
+    series = relationship("Serie", secondary='mis_listas_serie')
+
+
+class MisListasMovie(Base):
+    __tablename__ = 'mis_listas_movie'
+
+    id_lista = Column(Integer, ForeignKey('mis_listas.id'), primary_key=True)
+    id_movie = Column(Integer, ForeignKey('pelicula.id'), primary_key=True)
+
+    lista = relationship("MisListas", backref="mis_listas_movie")
+    pelicula = relationship("Movie", backref="mis_listas_movie")
+
+
+class MisListasSerie(Base):
+    __tablename__ = 'mis_listas_serie'
+
+    id_lista = Column(Integer, ForeignKey('mis_listas.id'), primary_key=True)
+    id_serie = Column(Integer, ForeignKey('serie.id'), primary_key=True)
+
+    lista = relationship("MisListas", backref="mis_listas_serie")
+    serie = relationship("Serie", backref="mis_listas_serie")
