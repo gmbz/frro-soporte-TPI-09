@@ -40,7 +40,8 @@ def get_person(person_: Person) -> Person:
 
 
 def movie_credits(person_: Person) -> None:
-    """Setea las peliculas en las que participó la persona.
+    """
+    Setea las peliculas en las que participó la persona.
     """
     id_ = str(person_.id)
     query = (requests.get("https://api.themoviedb.org/3/person/"+id_ +

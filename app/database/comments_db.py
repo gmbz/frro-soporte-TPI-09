@@ -12,3 +12,8 @@ def create(comment_: Comentario):
 def list_by_movie(movie_: Movie) -> List[Comentario]:
     return session.query(Comentario).filter(
         Comentario.id_pelicula == movie_.id).order_by(Comentario.fecha.desc())
+
+
+def list_by_serie(serie: Movie) -> List[Comentario]:
+    return session.query(Comentario).filter(
+        Comentario.id_serie == serie.id).order_by(Comentario.fecha.desc())

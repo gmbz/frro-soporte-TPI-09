@@ -1,6 +1,6 @@
 from typing import List
 from ..database import serie_db
-from ..models.models import Serie
+from ..models.models import Serie, Person
 
 
 def lista_popular(pag: str) -> List[Serie]:
@@ -21,6 +21,10 @@ def lista_top_rated(pag: str) -> List[Serie]:
 
 def lista_recomendations(id_serie: str) -> List[Serie]:
     return serie_db.lista_recomendations(id_serie)
+
+
+def get_serie_credits(serie_: Serie) -> List[Person]:
+    return serie_db.serie_credits(serie_)
 
 
 def calcula_paginas(pag: str):

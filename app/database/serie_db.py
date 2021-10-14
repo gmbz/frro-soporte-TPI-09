@@ -2,7 +2,7 @@ import datetime
 from typing import List, Optional
 import requests
 
-from ..models.models import Serie
+from ..models.models import Serie, Person
 from .db import session
 
 api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
@@ -16,15 +16,16 @@ def lista_popular(pag: str) -> List[Serie]:
     lista = []
     for data in query['results']:
         if data['poster_path']:
-            serie = Serie(id=data['id'], nombre=data['name'],
-                          descripcion=data['overview'],
-                          portada="https://image.tmdb.org/t/p/original/" +
-                          data['poster_path'],
-                          fecha_date=datetime.datetime.strptime(
-                              data['first_air_date'], "%Y-%m-%d")
-                          )
-            set_fecha(serie)
-            lista.append(serie)
+            if data['first_air_date']:
+                serie = Serie(id=data['id'], nombre=data['name'],
+                              descripcion=data['overview'],
+                              portada="https://image.tmdb.org/t/p/original/" +
+                              data['poster_path'],
+                              fecha_date=datetime.datetime.strptime(
+                    data['first_air_date'], "%Y-%m-%d")
+                )
+                set_fecha(serie)
+                lista.append(serie)
     return lista
 
 
@@ -50,14 +51,14 @@ def get_video(id_serie: str) -> Optional[str]:
     """
     query = (requests.get("https://api.themoviedb.org/3/tv/" +
              id_serie+"/videos?api_key="+api_key)).json()
-    serie = query['results']
-    if serie:
-        for s in serie:
-            if s['type'] == 'Trailer':
-                video = s['key']
+    if query['results']:
+        video = ""
+        for data in query['results']:
+            if data['type'] == 'Trailer':
+                video = data['key']
                 break
-    else:
-        return None
+        if not video:
+            return None
     return video
 
 
@@ -113,3 +114,21 @@ def set_fecha(serie: Serie) -> None:
     Setea la fecha que se mostrará en la web.
     """
     serie.fecha_string = serie.fecha_date.strftime("%d %b %Y")
+
+
+def serie_credits(serie_: Serie) -> List[Serie]:
+    """
+    Devuelve listado que contiene el reparto de la pelicula.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/tv/" +
+             str(serie_.id)+"/credits?api_key="+api_key+"&language=es-ES")
+             ).json()
+    lista = []
+    for data in query['cast']:
+        if data['profile_path']:
+            per = Person(id=data['id'],
+                         nombre=data['name'],
+                         perfil="https://image.tmdb.org/t/p/original/" +
+                         data['profile_path'])
+            lista.append(per)
+    return lista

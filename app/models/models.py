@@ -73,6 +73,7 @@ class Comentario(Base):
     fecha = Column(DATETIME)
     id_usuario = Column(Integer, ForeignKey('usuario.id'))
     id_pelicula = Column(Integer, ForeignKey('pelicula.id'))
+    id_serie = Column(Integer, ForeignKey('serie.id'))
 
 
 class Person(Base):
@@ -98,6 +99,16 @@ class PersonMovie(Base):
     pelicula = relationship("Movie", backref="person_movie")
 
 
+class PersonSerie(Base):
+    __tablename__ = 'person_serie'
+
+    id_person = Column(Integer, ForeignKey('persona.id'), primary_key=True)
+    id_serie = Column(Integer, ForeignKey('serie.id'), primary_key=True)
+
+    persona = relationship("Person", backref="person_serie")
+    pelicula = relationship("Serie", backref="person_serie")
+
+
 class Serie(Base):
     __tablename__ = 'serie'
 
@@ -110,6 +121,7 @@ class Serie(Base):
     video = Column(String(250))
 
     listas = relationship("MisListas")
+    comments = relationship("Comentario", backref='serie')
 
 
 class MisListas(Base):

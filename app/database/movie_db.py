@@ -98,14 +98,14 @@ def get_video(id_: str) -> Optional[str]:
     """
     query = (requests.get("https://api.themoviedb.org/3/movie/" +
              id_+"/videos?api_key="+api_key)).json()
-    pelicula = query['results']
-    if pelicula:
-        for p in pelicula:
-            if p['type'] == 'Trailer':
-                video = p['key']
+    if query['results']:
+        video = ""
+        for data in query['results']:
+            if data['type'] == 'Trailer':
+                video = data['key']
                 break
-    else:
-        return None
+        if not video:
+            return None
     return video
 
 

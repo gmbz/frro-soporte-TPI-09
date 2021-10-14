@@ -1,0 +1,31 @@
+<h2>Reparto</h2>
+
+<div class="table-responsive">
+  <!-- TABLA DEL CAST DE LA PELICULA -->
+  <table class="table">
+    <thead>
+      <tr>
+        {% for p in reparto %}
+        <!-- PORTADAS -->
+        <th class="align-top">
+          <div class="d-inline-flex flex-row align-items-start">
+            <a href="{{ url_for('person.person_id', id_person=p.id) }}">
+              <div class="card" style="width: 13rem">
+                <img
+                  class="card-img-top"
+                  src="{{ p.perfil }}"
+                  width="280px"
+                  height="296px"
+                />
+              </div>
+              <div class="card-body">
+                <h5>{{ p.nombre }}</h5>
+              </div>
+            </a>
+          </div>
+        </th>
+        {% endfor %}
+      </tr>
+    </thead>
+  </table>
+</div>
