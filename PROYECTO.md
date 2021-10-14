@@ -6,11 +6,11 @@ Este es un archivo que debe completarse con los datos utilizados en el TPI. Este
 
 ## Descripción del proyecto
 
-Definir cúal es el alcance de este proyecto y los principales objetivos que debe cumplir.
+En este proyecto se llevará a cabo el desarrollo de una aplicacion web que corresponde a una red social de películas, donde los usuarios podrán acceder a la información de la película que desee y comentarla y calificarla.
 
 ## Modelo de Dominio
 
-Insertar el modelo de dominio aquí.
+![Modelo de dominio](img/modelo-de-dominio.png)
 
 ## Bosquejo de Arquitectura
 
@@ -23,6 +23,23 @@ Definir los requerimientos del sistema.
 ### Funcionales
 
 Listado y descripción breve de los requerimientos funcionales.
+
+|REQ|Descripción|
+|:---:|:---|
+|01|Registrar nuevo usuario|
+|02|Autenticar usuario|
+|03|Registrar nuevo comentario|
+|04|Mostrar lista películas populares|
+|05|Agregar película a lista personalizada|
+|06|Buscar pelicula por nombre|
+|07|Cambiar imagen de perfil de usuario|
+|08|Valorar comentario (upvote o downvote)|
+|09|Mostrar informacion de película|
+|10|Mostrar próximos estrenos|
+|11|Mostrar tendencias|
+|12|Crear listas personalizadas|
+|13|Mostrar información de actores/productores|
+|14|Mostrar películas filtradas por género|
 
 ### No Funcionales
 
@@ -79,12 +96,21 @@ Definir que tecnologías se van a utilizar en cada capa y una breve descripción
 
 ### Capa de Datos
 
-Definir que base de datos, ORM y tecnologías se utilizaron y por qué.
+- SQLITE3
+- SQLALCHEMY 1.4.7
+
+Se utilizó una base de datos sqlite3 y como ORM se utilizó sqlalchemy para manejar la base de datos debido a las facilidades que nos brinda esta herramienta y otro motivo fue para aprender nuevas tecnologías.
 
 ### Capa de Negocio
 
-Definir que librerías e integraciones con terceros se utilizaron y por qué. En caso de consumir APIs, definir cúales se usaron.
+Para obtener la información de las películas, consumimos la API de TMDB, la cual es una API pública. Para realizar las consultas se necesita una "api key", la cual solicitamos y utilizamos
 
 ### Capa de Presentación
 
-Definir que framework se utilizó y por qué.
+- Flask.
+- HTML5.
+- BOOTSTRAP4.
+- CSS3.
+
+Optamos por la utilización de Flask para la capa de presentación debido a nuestra falta de experiencia con python necesitabamos un framework con una curva de aprendizaje baja. También, gracias a que Flask utiliza Jinja2 para el manejo de datos en las plantillas HTML, nos facilita mostrar la información en la web.
+Al ser inexpertos en el frontend, creemos que lo mejor es utilizar clases bootrstrap para la estética de la web y refinar cosas puntuales con nuestro escaso conocimiento de css.

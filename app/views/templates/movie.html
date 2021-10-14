@@ -1,0 +1,112 @@
+{% extends 'layout.html' %} 
+{% block title %} Index {% endblock %} 
+{% block content %}
+
+<div class="container">
+  <div class="row mt-4">
+    <!-- PORTADA -->
+    <div class="col-lg-4 col-md-4 col-12 my-auto">
+      <class class="card">
+        <img src="{{ mov.portada }}" />
+      </class>
+    </div>
+    <!-- TITULO, GENEROS Y DESCRIPCION -->
+    <div class="h-100 col-lg-8 col-md-8 col-12">
+      <h5>{{ mov.titulo }}<span class="text-muted">({{ mov.fecha_string }})</span></h5>
+      {% for g in mov.generos %}
+      {% if loop.last %}
+      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      {% else %}
+      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      <p class="d-inline-flex">&#9900</p>
+      {% endif %}
+      {% endfor %}
+      <p class="text-light my-auto">{{ mov.descripcion }}</p>
+    </div>
+  </div>
+  <hr />
+  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+  {% if listas %}
+    {% include 'show_alerts.html' %}
+    <div class="dropdown">
+      <a
+        href="#"
+        class="nav-link dropdown-toggle"
+        id="btn-dropdown-listas"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Agregar a lista</a
+      >
+      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+        {% for l in listas %}
+        <a
+          href="{{ url_for('perfil.add_movie_list', id_movie=mov.id, id_lista=l.id) }}"
+          class="dropdown-item"
+          >{{ l.nombre }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  
+  <hr>
+  
+  {% include 'show_reparto.html' %}
+
+  <hr />
+
+  {% if mov.video %}
+  <h2>Trailer</h2>
+  <!-- TRAILER -->
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe
+      class="embed-responsive-item"
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/{{mov.video}}"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  {% endif %}
+  <hr />
+  <h2>Recomendaciones</h2>
+  <!-- LISTADO DE PELICULAS RECOMENDADAS -->
+
+  {% include 'show_movies_list.html' %}
+
+  <h2>Comentarios</h2>
+
+  <div class="row row-cols-1 justify-content">
+    <div class="col">
+      <!-- FORMULARIO PARA NUEVO COMENTARIO -->
+      <form action="{{ url_for('main.movie_comment') }}" method="POST">
+        <input type="hidden" name="IdMovie" value="{{ mov.id }}" />
+        <div class="form-group">
+          <textarea class="form-control" name="comentario" rows="3"></textarea>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+      <!-- LISTADO DE COMENTARIOS -->
+      {% for c in com %}
+      <div class="media border-top">
+        <div class="media-left">
+          <h5>[imagen]</h5>
+        </div>
+        <div class="media-body ml-2">
+          <div class="d-flex">
+            <h5 class="media-heading">{{ c.user.username }}</h5>
+            <small class="text-muted ml-auto">{{ c.fecha }}</small>
+          </div>
+          <p>{{ c.contenido }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

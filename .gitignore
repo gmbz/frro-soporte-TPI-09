@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.vscode/
+.vscode
+.ipynb_checkpoints/
 
 # C extensions
 *.so
@@ -127,3 +130,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+Pipfile
+Pipfile.lock
+.vscode/settings.json
+.vscode/
+.vscode

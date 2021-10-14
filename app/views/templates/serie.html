@@ -1,0 +1,104 @@
+{% extends 'layout.html' %} {% block title %} Index {% endblock %} {% block
+content %}
+
+<div class="container">
+  <div class="row row-cols-lg-2 row-cols-1 mt-4">
+    <!-- PORTADA -->
+    <div class="col-lg-4 col-12 my-auto">
+      <class class="card">
+        <img src="{{ s.portada }}" />
+      </class>
+    </div>
+    <!-- TITULO, GENEROS Y DESCRIPCION -->
+    <div class="col-lg-8 col-12 my-auto">
+      <h5>{{ s.nombre }}<span class="text-muted">({{ s.fecha_string }})</span></h5>
+      <p class="text-light">{{ s.descripcion }}</p>
+    </div>
+  </div>
+  <hr />
+  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+  {% if listas %}
+    {% include 'show_alerts.html' %}
+    <div class="dropdown">
+      <a
+        href="#"
+        class="nav-link dropdown-toggle"
+        id="btn-dropdown-listas"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        >Agregar a lista</a
+      >
+      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+        {% for l in listas %}
+        <a
+          href="{{ url_for('perfil.add_serie_list', id_serie=s.id, id_lista=l.id) }}"
+          class="dropdown-item"
+          >{{ l.nombre }}</a
+        >
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  <hr>
+
+  {% include 'show_reparto.html' %}
+
+  <hr />
+
+  {% if s.video %}
+  <h2>Trailer</h2>
+  <!-- TRAILER -->
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe
+      class="embed-responsive-item"
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/{{s.video}}"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  {% endif %}
+
+  <hr />
+  <h2>Recomendaciones</h2>
+  <!-- LISTADO DE SERIES RECOMENDADAS -->
+
+  {% include 'show_series_list.html' %}
+
+  <hr>
+  <h2>Comentarios</h2>
+
+  <div class="row row-cols-1 justify-content">
+    <div class="col">
+      <!-- FORMULARIO PARA NUEVO COMENTARIO -->
+      <form action="{{ url_for('series.serie_comment') }}" method="POST">
+        <input type="hidden" name="IdSerie" value="{{ s.id }}" />
+        <div class="form-group">
+          <textarea class="form-control" name="comentario" rows="3"></textarea>
+          <button type="submit" class="btn btn-primary">Publicar</button>
+        </div>
+      </form>
+      <!-- LISTADO DE COMENTARIOS -->
+      {% for c in com %}
+      <div class="media border-top">
+        <div class="media-left">
+          <h5>[imagen]</h5>
+        </div>
+        <div class="media-body ml-2">
+          <div class="d-flex">
+            <h5 class="media-heading">{{ c.user.username }}</h5>
+            <small class="text-muted ml-auto">{{ c.fecha }}</small>
+          </div>
+          <p>{{ c.contenido }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

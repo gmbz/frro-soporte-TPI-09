@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% block title %} Index {% endblock %} {% block
+content %}
+
+<div class="container-xl">
+  <!-- LISTADO DE PELICULAS DEL GENERO -->
+  {% include 'show_movies_list.html' %}
+
+  <!-- PAGINACION -->
+  <div class="mx-auto d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a
+            class="page-link bg-secondary"
+            href="{{ url_for(url, genre_name=genre_name, pag=prev) }}"
+            aria-label="Previous"
+          >
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        {% for p in pages %}
+        <li class="page-item">
+          <a
+            class="page-link bg-secondary"
+            href="{{ url_for(url, genre_name=genre_name, pag=p) }}"
+            >{{ p }}</a
+          >
+        </li>
+        {% endfor %}
+        <li class="page-item">
+          <a
+            class="page-link bg-secondary"
+            href="{{ url_for(url, genre_name=genre_name, pag=next) }}"
+            aria-label="Next"
+          >
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- FIN PAGINACION -->
+</div>
+
+{% endblock %}
