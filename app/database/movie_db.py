@@ -67,6 +67,7 @@ def movie(movie_: Movie) -> Movie:
     peli = Movie(id=query['id'],
                  titulo=query['title'],
                  descripcion=query['overview'],
+                 pagina_principal=query['homepage'],
                  valoracion=int(query['vote_average']*10),
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
@@ -87,7 +88,7 @@ def movie_without_genre(movie_: Movie) -> Movie:
     peli = Movie(id=query['id'],
                  titulo=query['title'],
                  descripcion=query['overview'],
-                 valoracion=int(data['vote_average']*10),
+                 valoracion=int(query['vote_average']*10),
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
                  fecha_date=datetime.datetime.strptime(

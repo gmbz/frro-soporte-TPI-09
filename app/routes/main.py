@@ -1,4 +1,7 @@
-from flask import Blueprint, request, redirect, url_for, render_template
+import os
+
+from flask import Blueprint, request, redirect, url_for, render_template, send_from_directory
+from flask.globals import current_app
 from flask_login import current_user
 from flask_login.utils import login_required
 
@@ -68,3 +71,9 @@ def genre(genre_name, pag):
 
     return render_template('genre.html', lista=peliculas, pages=lista_paginas,
                            prev=prev_pag, next=next_pag, url=url, genre_name=genre_name)
+
+
+@main.route('/media/posts/<filename>')
+def image_user(filename):
+    dir_path = os.path.join(current_app.config['IMAGES_DIR'])
+    return send_from_directory(dir_path, filename)

@@ -2,27 +2,42 @@
 {% block title %} Registro {% endblock %} 
 {% block content %} 
 
-{% include 'show_alerts.html' %}
-
 <!-- FORMULARIO DE REGISTRO -->
 <div class="container p-4">
-  <div class="col-md-4 offset-md-4 text-center">
-    <div class="card">
-      <div class="card-header">REGISTRAR</div>
-      <div class="card-dody">
-        <div class="form-group pt-3">
-          <form action="{{ url_for('auth.register') }}" method="POST">
-            {{ form.username.label() }} {{form.username()}}
-            <br />
-            {{ form.password.label() }} {{form.password()}}
-            <br />
-            {{ form.email.label() }} {{form.email()}}
-            <br />
-            {{ form.submit()}}
-          </form>
-        </div>
+  <h3 class="text-center">Registro</h3>
+  {% include 'show_alerts.html' %}
+  <div class="row d-flex justify-content-center">
+    <form action="{{ url_for('auth.register') }}" method="POST" class="col-12">
+      <div class="form-group">
+        {{ form.username.label(for="inputUsername") }} {{
+        form.username(id="inputUsername", class="form-control",
+        placeholder="Nombre de usuario") }}
+        <small id="usernameHelp" class="form-text text-muted"
+          >El nombre de usuario debe contener entre 6 y 30 caracteres y no
+          puede contener simbolos.</small
+        >
       </div>
-    </div>
+      <div class="form-group">
+        {{ form.password.label(for="inputPassword") }} {{
+        form.password(id="inputPassword", class="form-control",
+        placeholder="Contraseña") }}
+        <small id="passHelp" class="form-text text-muted"
+          >La longitud de las contraseñas debe ser entre 8 y 16 caracteres y
+          solo pueden contener letras y numeros.</small
+        >
+      </div>
+      <div class="form-group">
+        {{ form.email.label(for="inputEmail") }} {{ form.email(id="inputEmail",
+        class="form-control", placeholder="Email") }}
+      </div>
+      <div class="d-flex justify-content-center">
+        {{ form.recaptcha }}
+        
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        {{ form.submit(class="btn btn-primary")}}
+      </div>
+    </form>
   </div>
 </div>
 

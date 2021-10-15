@@ -1,7 +1,8 @@
 import re
+import requests
+import json
 
 from ..models.models import Usuario
-
 from ..models.exceptions import UserNotValid
 
 
@@ -40,3 +41,16 @@ def validate_registration(user_: Usuario) -> bool:
     if not __password_is_valid(user_.password):
         raise UserNotValid('Contraseña invalida')
     return True
+
+
+def is_human(captcha, current_app) -> bool:
+    """
+    Valida la recaptcha response del servidor de Google.
+    :return: bool
+    """
+    payload = {'response': captcha,
+               'secret': current_app.config['RECAPTCHA_PRIVATE_KEY']}
+    response = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify", payload)
+    response_text = json.loads(response.text)
+    return response_text['success']

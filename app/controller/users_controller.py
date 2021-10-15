@@ -1,5 +1,7 @@
 from typing import Optional
 
+from sqlalchemy.sql.functions import current_user
+
 from ..database import user_db
 from ..helpers import helper
 from ..models.exceptions import UserNotValid, UserAlreadyExists, UserNotFound

@@ -2,12 +2,15 @@
 content %}
 
 <div class="container">
-  <div class="row row-cols-lg-2 row-cols-1 mt-4">
+  <div class="row row-cols-md-2 row-cols-1 mt-4">
     <!-- PORTADA -->
     <div class="col-lg-4 col-12 my-auto">
-      <class class="card">
-        <img src="{{ s.portada }}" />
-      </class>
+      <div class="card">
+        <img class="card-img-top" src="{{ s.portada }}" />
+        <div class="card-body text-center ">
+          <a href="{{ s.pagina_principal }}">Pagina Principal</a>
+        </div>
+      </div>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
     <div class="col-lg-8 col-12">
@@ -99,6 +102,30 @@ content %}
     ></iframe>
   </div>
   {% endif %}
+
+  <hr>
+  <h2>Temporadas</h2>
+
+  <div class="row row-cols-md-2 row-cols-sm-1 pt-1">
+    {% for season in s.seasons %}
+    <div class="col">
+      <div class="pb-3">
+        <div class="card flex-row shadow">
+          <img
+            class="card-img-left"
+            src="{{ season.portada }}"
+            width="150px"
+            height="225px"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ season.nombre }}</h5>
+            <p class="card-text">Episodios: {{ season.episodios }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
   <hr />
   <h2>Recomendaciones</h2>
