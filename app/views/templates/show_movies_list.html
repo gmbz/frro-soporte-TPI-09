@@ -1,7 +1,7 @@
 <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1">
   {% for p in lista %}
   <!-- LISTADO DE PELICULAS -->
-  <div class="col mx-auto">
+  <div class="col mx-auto pt-2">
     <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
       <div class="card">
         <img
@@ -11,10 +11,37 @@
           height="379px"
         />
       </div>
-			<div class="card-body">
-				<h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
-				<p class="text-muted">{{ p.fecha_string }}</p>
-			</div>
+      <div class="card-body">
+        <h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+        <p class="text-muted">{{ p.fecha_string }}</p>
+        {% if p.valoracion < 70 %}
+        <div class="progress d-flex">
+          <div
+            class="progress-bar bg-warning"
+            role="progressbar"
+            style="width: {{ p.valoracion }}%;"
+            aria-valuenow="{{ p.valoracion }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span class="text-dark">{{ p.valoracion }}%</span>
+          </div>
+        </div>
+        {% else %}
+        <div class="progress">
+          <div
+            class="progress-bar bg-success"
+            role="progressbar"
+            style="width: {{ p.valoracion }}%;"
+            aria-valuenow="{{ p.valoracion }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span class="text-dark">{{ p.valoracion }}%</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
     </a>
   </div>
   {% endfor %}

@@ -19,6 +19,7 @@ def lista_popular(pag: str) -> List[Serie]:
             if data['first_air_date']:
                 serie = Serie(id=data['id'], nombre=data['name'],
                               descripcion=data['overview'],
+                              valoracion=int(data['vote_average']*10),
                               portada="https://image.tmdb.org/t/p/original/" +
                               data['poster_path'],
                               fecha_date=datetime.datetime.strptime(
@@ -36,6 +37,7 @@ def details(id_serie: str) -> Serie:
              id_serie+"?api_key="+api_key+"&language=es-ES")).json()
     serie = Serie(id=query['id'], nombre=query['name'],
                   descripcion=query['overview'],
+                  valoracion=int(query['vote_average']*10),
                   portada="https://image.tmdb.org/t/p/original/" +
                   query['poster_path'],
                   fecha_date=datetime.datetime.strptime(
@@ -72,6 +74,7 @@ def lista_top_rated(pag: str) -> List[Serie]:
         if data['poster_path']:
             serie = Serie(id=data['id'], nombre=data['name'],
                           descripcion=data['overview'],
+                          valoracion=int(data['vote_average']*10),
                           portada="https://image.tmdb.org/t/p/original/" +
                           data['poster_path'],
                           fecha_date=datetime.datetime.strptime(
@@ -92,6 +95,7 @@ def lista_recomendations(id_serie: str) -> List[Serie]:
         if data['poster_path']:
             serie = Serie(id=data['id'], nombre=data['name'],
                           descripcion=data['overview'],
+                          valoracion=int(data['vote_average']*10),
                           portada="https://image.tmdb.org/t/p/original/" +
                           data['poster_path'],
                           fecha_date=datetime.datetime.strptime(

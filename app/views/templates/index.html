@@ -2,120 +2,6 @@
 content %}
 
 <div class="container">
-  <!-- <div class="row mx-auto">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
-      <div class="carousel-inner">
-        
-        <div class="carousel-item active">
-          <div class="d-inline-block">
-            {% for p in trending1 %}
-            <div class="d-inline-flex">
-              <div class="card bg-dark" style="width: 13rem;">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="125px"
-                    height="320px"
-                  />
-                </a>
-                <div class="card-body">
-                  <a class="card-title text-light" href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                    <strong>{{ p.titulo }}</strong></a>
-                  <p class="card-text text-light">{{ p.fecha }}</p>
-                </div>
-              </div>
-            </div>
-            {% endfor %} 
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="d-block">
-            {% for p in trending2 %}
-            <div class="d-inline-flex">
-              <div class="card bg-dark" style="width: 13rem;">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="125px"
-                    height="320px"
-                  />
-                </a>
-                <div class="height: 100px">
-                  <a class="card-title text-light" href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                    <strong>{{ p.titulo }}</strong></a>
-                  <p class="card-text text-light">{{ p.fecha }}</p>
-                </div>
-              </div>
-            </div>
-            {% endfor %} 
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="d-block">
-            {% for p in trending3 %}
-            <div class="d-inline-flex">
-              <div class="card bg-dark" style="width: 13rem;">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="125px"
-                    height="320px"
-                  />
-                </a>
-                <div class="height: 50px">
-                  <a class="card-title text-light" href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                    <strong>{{ p.titulo }}</strong></a>
-                  <p class="card-text text-light">{{ p.fecha }}</p>
-                </div>
-              </div>
-            </div>
-            {% endfor %} 
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="d-block">
-            {% for p in trending4 %}
-            <div class="d-inline-flex">
-              <div class="card bg-dark" style="width: 13rem;">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="125px"
-                    height="320px"
-                  />
-                </a>
-                <div class="card-body">
-                  <a class="card-title text-light" href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                    <strong>{{ p.titulo }}</strong></a>
-                  <p class="card-text text-light">{{ p.fecha }}</p>
-                </div>
-              </div>
-            </div>
-            {% endfor %} 
-          </div>
-        </div>
-
-      </div>
-      
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-  </div> -->
 
   <h2>Tendencias</h2>
 
@@ -222,11 +108,14 @@ content %}
                     height="420px"
                   />
                 </a>
-                <a
+                <div class="d-flex">
+                  <a
                   class="card-title text-light"
                   href="{{ url_for('main.movie_id', id_movie=p.id) }}"
                   ><strong>{{ p.titulo }}</strong></a
-                >
+                  >
+                  <p class="ml-auto">{{ p.valoracion }}%</p>
+                </div>
                 <p class="card-text text-light">{{ p.fecha_string }}</p>
               </div>
             </div>

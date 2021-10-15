@@ -11,44 +11,78 @@
       </class>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
-    <div class="h-100 col-lg-8 col-md-8 col-12">
-      <h5>{{ mov.titulo }}<span class="text-muted">({{ mov.fecha_string }})</span></h5>
+    <div class="col-lg-8 col-md-8 col-12">
+      <h4>{{ mov.titulo }}<span class="text-muted">({{ mov.fecha_string }})</span></h4>
+
+      <!-- GENEROS DE LA PELICULA -->
       {% for g in mov.generos %}
       {% if loop.last %}
-      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      <h5 class="d-inline-flex">{{ g.nombre }}</h5>
       {% else %}
-      <h6 class="d-inline-flex">{{ g.nombre }}</h6>
+      <h5 class="d-inline-flex">{{ g.nombre }}</h5>
       <p class="d-inline-flex">&#9900</p>
       {% endif %}
       {% endfor %}
-      <p class="text-light my-auto">{{ mov.descripcion }}</p>
+
+      <!-- DESCRIPCION DE LA PELICULA -->
+      <h5>Vista General</h5>
+      <p class="text-light">{{ mov.descripcion }}</p>
+
+      <!-- VALORACION DE LA PELICULA -->
+      <h5 class="pt-1">Valoracion</h5>
+      {% if mov.valoracion < 70 %}
+      <div class="progress">
+        <div 
+          class="progress-bar bg-warning" 
+          role="progressbar" 
+          style="width: {{ mov.valoracion }}%;" 
+          aria-valuenow="{{ mov.valoracion }}" 
+          aria-valuemin="0" 
+          aria-valuemax="100"
+          ><span class="text-dark">{{ mov.valoracion }}%</span></div>
+      </div>
+      {% else %}
+      <div class="progress">
+        <div 
+          class="progress-bar bg-success" 
+          role="progressbar" 
+          style="width: {{ mov.valoracion }}%;" 
+          aria-valuenow="{{ mov.valoracion }}" 
+          aria-valuemin="0" 
+          aria-valuemax="100"
+          >
+            <span class="text-dark">{{ mov.valoracion }}%</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+      {% if listas %}
+      <h5 class="pt-3">Listas</h5>
+      {% include 'show_alerts.html' %}
+      <div class="dropdown">
+        <a
+          href="#"
+          class="nav-link dropdown-toggle"
+          id="btn-dropdown-listas"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Agregar a lista</a
+        >
+        <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+          {% for l in listas %}
+          <a
+            href="{{ url_for('perfil.add_movie_list', id_movie=mov.id, id_lista=l.id) }}"
+            class="dropdown-item"
+            >{{ l.nombre }}</a
+          >
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
-  <hr />
-  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
-  {% if listas %}
-    {% include 'show_alerts.html' %}
-    <div class="dropdown">
-      <a
-        href="#"
-        class="nav-link dropdown-toggle"
-        id="btn-dropdown-listas"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-        >Agregar a lista</a
-      >
-      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
-        {% for l in listas %}
-        <a
-          href="{{ url_for('perfil.add_movie_list', id_movie=mov.id, id_lista=l.id) }}"
-          class="dropdown-item"
-          >{{ l.nombre }}</a
-        >
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
   
   <hr>
   

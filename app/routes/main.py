@@ -16,11 +16,10 @@ main = Blueprint("main", __name__)
 def home():
     pag = '1'
     pop, _ = popular(pag)
-    trending_list_1, trending_list_2, trending_list_3, trending_list_4, = trending_day()
+    trending_list = trending_day()
     top, _ = top_rated(pag)
-    return render_template('index.html', lista=pop, top=top, trending1=trending_list_1,
-                           trending2=trending_list_2, trending3=trending_list_3,
-                           trending4=trending_list_4)
+    return render_template('index.html', lista=pop, top=top,
+                           trending=trending_list)
 
 
 @main.route('/search/', methods=['POST'])

@@ -41,8 +41,7 @@ def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
 
 
 def trending_day() -> List[Movie]:
-    lista = movie_db.trending_day()
-    return generador_listas(lista)
+    return movie_db.trending_day()
 
 
 def top_rated(pag: str) -> List[Movie]:
@@ -57,23 +56,23 @@ def upcoming(pag: str) -> List[Movie]:
     return listado_upcoming, paginas
 
 
-def generador_listas(lista):
+# def generador_listas(lista):
 
-    def generador(initial: int = 0):
-        while True:
-            _lista = []
-            for movie in lista:
-                _lista.append(movie)
-                initial += 1
-                if initial in (5, 10, 15, 20):
-                    yield _lista
-                    _lista = []
-    g = generador()
-    listado = []
-    for _ in range(4):
-        _listado = next(g)
-        listado.append(_listado)
-    return listado
+#     def generador(initial: int = 0):
+#         while True:
+#             _lista = []
+#             for movie in lista:
+#                 _lista.append(movie)
+#                 initial += 1
+#                 if initial in (5, 10, 15, 20):
+#                     yield _lista
+#                     _lista = []
+#     g = generador()
+#     listado = []
+#     for _ in range(4):
+#         _listado = next(g)
+#         listado.append(_listado)
+#     return listado
 
 
 def calcula_paginas(pag: str):

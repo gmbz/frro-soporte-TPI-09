@@ -36,6 +36,7 @@ class Movie(Base):
     fecha_date = Column(DATE)
     fecha_string = Column(String(250))
     video = Column(String(250))
+    valoracion = Column(Integer)
 
     comments = relationship("Comentario", backref='movie')
     generos = relationship(
@@ -85,8 +86,8 @@ class Person(Base):
     fecha_nacimiento = Column(String(255))
     biografia = Column(String(255))
 
-    peliculas = relationship("Movie", secondary="person_movie",
-                             back_populates="personas")
+    peliculas = relationship("Movie", secondary="person_movie")
+    series = relationship("Serie", secondary="person_serie")
 
 
 class PersonMovie(Base):
@@ -106,7 +107,7 @@ class PersonSerie(Base):
     id_serie = Column(Integer, ForeignKey('serie.id'), primary_key=True)
 
     persona = relationship("Person", backref="person_serie")
-    pelicula = relationship("Serie", backref="person_serie")
+    serie = relationship("Serie", backref="person_serie")
 
 
 class Serie(Base):
@@ -119,6 +120,7 @@ class Serie(Base):
     fecha_string = Column(String(250))
     portada = Column(String(250))
     video = Column(String(250))
+    valoracion = Column(Integer)
 
     listas = relationship("MisListas")
     comments = relationship("Comentario", backref='serie')

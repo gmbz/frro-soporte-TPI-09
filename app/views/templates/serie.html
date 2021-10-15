@@ -10,37 +10,74 @@ content %}
       </class>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
-    <div class="col-lg-8 col-12 my-auto">
-      <h5>{{ s.nombre }}<span class="text-muted">({{ s.fecha_string }})</span></h5>
+    <div class="col-lg-8 col-12">
+      <h4>
+        {{ s.nombre }}<span class="text-muted">({{ s.fecha_string }})</span>
+      </h4>
+
+      <!-- DESCRIPCION DE LA SERIE -->
+      <h5>Vista General</h5>
       <p class="text-light">{{ s.descripcion }}</p>
+
+      <!-- VALORACION DE LA SERIE -->
+      <h5 class="pt-1">Valoracion</h5>
+      {% if s.valoracion < 70 %}
+      <div class="progress">
+        <div
+          class="progress-bar bg-warning"
+          role="progressbar"
+          style="width: {{ s.valoracion }}%;"
+          aria-valuenow="{{ s.valoracion }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <span class="text-dark">{{ s.valoracion }}%</span>
+        </div>
+      </div>
+      {% else %}
+      <div class="progress">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          style="width: {{ s.valoracion }}%;"
+          aria-valuenow="{{ s.valoracion }}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <span class="text-dark">{{ s.valoracion }}%</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
+      {% if listas %} 
+      <h5 class="pt-3">Listas</h5>
+      {% include 'show_alerts.html' %}
+      <div class="dropdown">
+        <a
+          href="#"
+          class="nav-link dropdown-toggle"
+          id="btn-dropdown-listas"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Agregar a lista</a
+        >
+        <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
+          {% for l in listas %}
+          <a
+            href="{{ url_for('perfil.add_serie_list', id_serie=s.id, id_lista=l.id) }}"
+            class="dropdown-item"
+            >{{ l.nombre }}</a
+          >
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
+
   <hr />
-  <!-- SI EL USUARIO ESTA LOGUEADO LE DA LA OPCIÓN DE AGREGAR LA PELICULA A SU LISTA -->
-  {% if listas %}
-    {% include 'show_alerts.html' %}
-    <div class="dropdown">
-      <a
-        href="#"
-        class="nav-link dropdown-toggle"
-        id="btn-dropdown-listas"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-        >Agregar a lista</a
-      >
-      <div class="dropdown-menu" aria-labelledby="btn-dropdown-listas">
-        {% for l in listas %}
-        <a
-          href="{{ url_for('perfil.add_serie_list', id_serie=s.id, id_lista=l.id) }}"
-          class="dropdown-item"
-          >{{ l.nombre }}</a
-        >
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
-  <hr>
 
   {% include 'show_reparto.html' %}
 
@@ -69,7 +106,7 @@ content %}
 
   {% include 'show_series_list.html' %}
 
-  <hr>
+  <hr />
   <h2>Comentarios</h2>
 
   <div class="row row-cols-1 justify-content">

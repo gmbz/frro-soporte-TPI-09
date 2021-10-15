@@ -1,7 +1,7 @@
 from typing import List
 import requests
 
-from ..models.models import Movie, Person
+from ..models.models import Movie, Person, Serie
 
 api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
 
@@ -36,6 +36,7 @@ def get_person(person_: Person) -> Person:
                  fecha_nacimiento=query['birthday'],
                  biografia=query['biography'])
     movie_credits(per)
+    serie_credits(per)
     return per
 
 
@@ -54,3 +55,20 @@ def movie_credits(person_: Person) -> None:
                          portada=("https://image.tmdb.org/t/p/w500/" +
                                   data['poster_path']))
             person_.peliculas.append(peli)
+
+
+def serie_credits(person_: Person) -> None:
+    """
+    Setea las series en las que participó la persona.
+    """
+    id_ = str(person_.id)
+    query = (requests.get("https://api.themoviedb.org/3/person/"+id_ +
+                          "/tv_credits?api_key="+api_key +
+                          "&language=es-ES")).json()
+    for data in query['cast']:
+        if data['poster_path']:
+            serie = Serie(id=data['id'],
+                          nombre=data['name'],
+                          portada=("https://image.tmdb.org/t/p/w500/" +
+                                   data['poster_path']))
+            person_.series.append(serie)

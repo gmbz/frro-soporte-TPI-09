@@ -1,22 +1,48 @@
 <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1">
-    {% for s in lista %}
-    <!-- LISTADO DE PELICULAS -->
-    <div class="col mx-auto">
-      <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
-        <div class="card">
-          <img
-            class="card-img-top"
-            src="{{ s.portada }}"
-            width="253px"
-            height="379px"
-          />
+  {% for s in lista %}
+  <!-- LISTADO DE PELICULAS -->
+  <div class="col mx-auto pt-2">
+    <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{ s.portada }}"
+          width="253px"
+          height="379px"
+        />
+      </div>
+      <div class="card-body">
+        <h5 class="card-title text-truncate text-white">{{ s.nombre }}</h5>
+        <p class="text-muted">{{ s.fecha_string }}</p>
+        {% if s.valoracion < 70 %}
+        <div class="progress">
+          <div
+            class="progress-bar bg-warning"
+            role="progressbar"
+            style="width: {{ s.valoracion }}%;"
+            aria-valuenow="{{ s.valoracion }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span class="text-dark">{{ s.valoracion }}%</span>
+          </div>
         </div>
-              <div class="card-body">
-                  <h5 class="card-title text-truncate text-white">{{ s.nombre }}</h5>
-                  <p class="text-muted">{{ s.fecha_string }}</p>
-              </div>
-      </a>
-    </div>
-    {% endfor %}
+        {% else %}
+        <div class="progress">
+          <div
+            class="progress-bar bg-success"
+            role="progressbar"
+            style="width: {{ s.valoracion }}%;"
+            aria-valuenow="{{ s.valoracion }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span class="text-dark">{{ s.valoracion }}%</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </a>
   </div>
-  
+  {% endfor %}
+</div>

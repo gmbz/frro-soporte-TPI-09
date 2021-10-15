@@ -10,7 +10,8 @@ api_key = "25398bd0f8e1460f3769b59bfbf5eea6"
 
 
 def lista_popular(pag: str) -> List[Movie]:
-    """Devuelve lista de peliculas populares.
+    """
+    Devuelve lista de peliculas populares.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/movie/popular?api_key="+api_key +
@@ -20,6 +21,7 @@ def lista_popular(pag: str) -> List[Movie]:
         peli = Movie(id=data['id'],
                      titulo=data['title'],
                      descripcion=data['overview'],
+                     valoracion=int(data['vote_average']*10),
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
                      fecha_date=datetime.datetime.strptime(
@@ -44,6 +46,7 @@ def search(movie_: Movie) -> List[Movie]:
                 peli = Movie(id=data['id'],
                              titulo=data['title'],
                              descripcion=data['overview'],
+                             valoracion=int(data['vote_average']*10),
                              portada="https://image.tmdb.org/t/p/w500/" +
                              data['poster_path'],
                              fecha_date=datetime.datetime.strptime(
@@ -64,6 +67,7 @@ def movie(movie_: Movie) -> Movie:
     peli = Movie(id=query['id'],
                  titulo=query['title'],
                  descripcion=query['overview'],
+                 valoracion=int(query['vote_average']*10),
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
                  fecha_date=datetime.datetime.strptime(
@@ -83,6 +87,7 @@ def movie_without_genre(movie_: Movie) -> Movie:
     peli = Movie(id=query['id'],
                  titulo=query['title'],
                  descripcion=query['overview'],
+                 valoracion=int(data['vote_average']*10),
                  portada="https://image.tmdb.org/t/p/w500/" +
                  query['poster_path'],
                  fecha_date=datetime.datetime.strptime(
@@ -123,6 +128,7 @@ def get_similar(movie_: Movie) -> List[Movie]:
         peli = Movie(id=data['id'],
                      titulo=data['title'],
                      descripcion=data['overview'],
+                     valoracion=int(data['vote_average']*10),
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
                      fecha_date=datetime.datetime.strptime(
@@ -160,6 +166,7 @@ def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
             peli = Movie(id=data['id'],
                          titulo=data['title'],
                          descripcion=data['overview'],
+                         valoracion=int(data['vote_average']*10),
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
                          fecha_date=datetime.datetime.strptime(
@@ -183,7 +190,8 @@ def get_genres() -> List[Genero]:
 
 
 def trending_day() -> List[Movie]:
-    """Devuelve lista de las peliculas en tendencias de hoy.
+    """
+    Devuelve lista de las peliculas en tendencias de hoy.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/trending/movie/day?api_key=" +
@@ -193,6 +201,7 @@ def trending_day() -> List[Movie]:
         peli = Movie(id=data['id'],
                      titulo=data['title'],
                      descripcion=data['overview'],
+                     valoracion=int(data['vote_average']*10),
                      portada="https://image.tmdb.org/t/p/original/" +
                      data['poster_path'],
                      fecha_date=datetime.datetime.strptime(
@@ -223,6 +232,7 @@ def top_rated(pag: str) -> List[Movie]:
             peli = Movie(id=data['id'],
                          titulo=data['title'],
                          descripcion=data['overview'],
+                         valoracion=int(data['vote_average']*10),
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
                          fecha_date=datetime.datetime.strptime(
@@ -244,6 +254,7 @@ def upcoming(pag: str) -> List[Movie]:
             peli = Movie(id=data['id'],
                          titulo=data['title'],
                          descripcion=data['overview'],
+                         valoracion=int(data['vote_average']*10),
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
                          fecha_date=datetime.datetime.strptime(
@@ -278,6 +289,7 @@ def recommendations(movie_: Movie) -> List[Movie]:
             peli = Movie(id=data['id'],
                          titulo=data['title'],
                          descripcion=data['overview'],
+                         valoracion=int(data['vote_average']*10),
                          portada="https://image.tmdb.org/t/p/original/" +
                          data['poster_path'],
                          fecha_date=datetime.datetime.strptime(
