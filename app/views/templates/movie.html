@@ -6,9 +6,12 @@
   <div class="row mt-4">
     <!-- PORTADA -->
     <div class="col-lg-4 col-md-4 col-12 my-auto">
-      <class class="card">
-        <img src="{{ mov.portada }}" />
-      </class>
+      <div class="card">
+        <img class="card-img-top" src="{{ mov.portada }}" />
+        <div class="card-body text-center">
+          <a href="{{ mov.pagina_principal }}">Pagina Principal</a>
+        </div>
+      </div>
     </div>
     <!-- TITULO, GENEROS Y DESCRIPCION -->
     <div class="col-lg-8 col-md-8 col-12">
@@ -121,14 +124,18 @@
         <input type="hidden" name="IdMovie" value="{{ mov.id }}" />
         <div class="form-group">
           <textarea class="form-control" name="comentario" rows="3"></textarea>
+          {% if current_user.is_anonymous %}
+          <button type="submit" class="btn btn-primary" disabled>Publicar</button>
+          {% else %}
           <button type="submit" class="btn btn-primary">Publicar</button>
+          {% endif %}
         </div>
       </form>
       <!-- LISTADO DE COMENTARIOS -->
       {% for c in com %}
       <div class="media border-top">
         <div class="media-left">
-          <h5>[imagen]</h5>
+          <img src="../../database/img/icons8-user-64.png" alt="[image3]">
         </div>
         <div class="media-body ml-2">
           <div class="d-flex">

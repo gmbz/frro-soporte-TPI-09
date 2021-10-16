@@ -15,6 +15,7 @@ class Usuario(Base, UserMixin):
     username = Column(String(250), unique=True)
     password = Column(String(250))
     email = Column(String(250))
+    image = Column(String(250))
 
     comments = relationship("Comentario", backref='user')
     listas = relationship("MisListas", backref='user')
@@ -37,6 +38,7 @@ class Movie(Base):
     fecha_string = Column(String(250))
     video = Column(String(250))
     valoracion = Column(Integer)
+    pagina_principal = Column(String(250))
 
     comments = relationship("Comentario", backref='movie')
     generos = relationship(
@@ -121,9 +123,22 @@ class Serie(Base):
     portada = Column(String(250))
     video = Column(String(250))
     valoracion = Column(Integer)
+    pagina_principal = Column(String(250))
 
     listas = relationship("MisListas")
     comments = relationship("Comentario", backref='serie')
+    seasons = relationship('Season')
+
+
+class Season(Base):
+    __tablename__ = 'temporada'
+
+    id = Column(Integer, primary_key=True)
+    numero = Column(Integer)
+    nombre = Column(String(255))
+    portada = Column(String(255))
+    episodios = Column(Integer)
+    id_serie = Column(Integer, ForeignKey('serie.id'))
 
 
 class MisListas(Base):

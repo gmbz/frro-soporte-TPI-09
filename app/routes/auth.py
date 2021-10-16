@@ -1,6 +1,7 @@
-from flask import Blueprint, request, flash, redirect, url_for, render_template
+from flask import Blueprint, request, flash, redirect, url_for, render_template, current_app
 from flask_login import login_user, current_user, logout_user
 
+from ..helpers import helper
 from ..models.models import Usuario
 from ..forms import RegistroUsuario, Login
 from ..controller.users_controller import register_user, autenticacion
@@ -12,15 +13,24 @@ auth = Blueprint("auth", __name__)
 def register():
     register_form = RegistroUsuario(request.form)
     if request.method == 'POST':
+        nombre_image = "icons8-user-64.png"
         user_ = Usuario(username=register_form.username.data,
                         password=register_form.password.data,
+                        image=nombre_image,
                         email=register_form.email.data)
-        user = register_user(user_)
-        if isinstance(user, Usuario):
-            flash(f"Usuario {user.username} registrado", 'success')
+        captcha = request.form['g-recaptcha-response']
+        if helper.is_human(captcha, current_app):
+            status = "Successfully"
+            user = register_user(user_)
+            if isinstance(user, Usuario):
+                flash(f"Usuario {user.username} registrado", 'success')
+            else:
+                msg = f"{user}"
+                flash(msg, 'danger')
+            return redirect(url_for('auth.register'))
         else:
-            msg = f"{user}"
-            flash(msg, 'danger')
+            status = "Por favor validar que no eres un robot."
+            flash(status, 'danger')
         return redirect(url_for('auth.register'))
     return render_template('register.html', form=register_form)
 

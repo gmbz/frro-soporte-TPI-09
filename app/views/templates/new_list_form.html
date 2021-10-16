@@ -1,8 +1,9 @@
 <div class="row">
-  <form action="{{ url_for('perfil.nueva_lista') }}" method="POST">
+  <form action="{{ url_for('perfil.nueva_lista') }}" method="POST" class="col-12">
     <div class="form-group">
-			{{ form.nombre.label() }} {{ form.nombre(class="") }}
-		</div>
+      {{ form.nombre.label(for="inputNewList") }}
+      {{form.nombre(id="inputNewList", class="form-control", placeholder="Nombre de lista") }}
+    </div>
     {{ form.submit(class="btn btn-primary") }}
   </form>
 </div>
