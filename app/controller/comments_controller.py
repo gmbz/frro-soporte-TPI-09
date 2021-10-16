@@ -1,8 +1,9 @@
 from typing import List
 import datetime
 
-from ..database import comments_db, user_db, movie_db, serie_db
+from ..database import comments_db, user_db, serie_db, movie_db
 from ..models.models import Movie, Comentario, Serie, Usuario
+from . import movie_api, serie_api
 
 
 def registrar_comentario(comment: Comentario, movie_: Movie, id_user: int):
@@ -12,7 +13,7 @@ def registrar_comentario(comment: Comentario, movie_: Movie, id_user: int):
     date_string = date_.strftime("%d/%m/%Y %H:%M")
     comment.fecha = datetime.datetime.strptime(date_string, "%d/%m/%Y %H:%M")
     if movie is None:
-        movie = movie_db.movie_without_genre(movie_)
+        movie = movie_api.movie_without_genre(movie_)
     user.comments.append(comment)
     movie.comments.append(comment)
     comments_db.create(comment)
@@ -29,7 +30,7 @@ def reg_comment(com: Comentario, serie_: Serie, user_: Usuario):
     date_string = date_.strftime("%d/%m/%Y %H:%M")
     com.fecha = datetime.datetime.strptime(date_string, "%d/%m/%Y %H:%M")
     if serie is None:
-        serie = serie_db.details(serie_.id)
+        serie = serie_api.details(serie_.id)
     user.comments.append(com)
     serie.comments.append(com)
     comments_db.create(com)

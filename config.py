@@ -1,8 +1,5 @@
-import os
-
-
 class Config:
-    DEBUG = False
+    DEBUG = True
     SECRET_KEY = "mysecretkey"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

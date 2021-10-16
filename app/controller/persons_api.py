@@ -7,7 +7,8 @@ api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
 
 
 def lista_popular(pag: str) -> List[Person]:
-    """Devuelve lista de personas populares.
+    """
+    Devuelve lista de personas populares.
     """
     query = (requests.get(
         "https://api.themoviedb.org/3/person/popular?api_key=" +
@@ -24,7 +25,8 @@ def lista_popular(pag: str) -> List[Person]:
 
 
 def get_person(person_: Person) -> Person:
-    """Devuelve instancia de persona dado su id.
+    """
+    Devuelve instancia de persona dado su id.
     """
     id_ = str(person_.id)
     query = (requests.get("https://api.themoviedb.org/3/person/"+id_ +

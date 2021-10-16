@@ -5,10 +5,8 @@ from flask.globals import current_app
 from flask_login import current_user
 from flask_login.utils import login_required
 
-from app.database.movie_db import recommendations
-
 from ..models.models import Genero, Movie, Comentario, Usuario
-from ..controller.movies_controller import get_movie_credits, popular, search_movie, movie, get_by_genre, trending_day, top_rated
+from ..controller.movies_controller import get_movie_credits, popular, search_movie, movie, get_by_genre, trending_day, top_rated, get_recommendations
 from ..controller.comments_controller import lista_por_pelicula, registrar_comentario
 from ..controller.listas_controller import listado_por_usuario
 
@@ -36,7 +34,7 @@ def search():
 def movie_id(id_movie):
     pelicula = Movie(id=int(id_movie))
     peli = movie(pelicula)
-    rec = recommendations(pelicula)
+    rec = get_recommendations(pelicula)
     comentarios = lista_por_pelicula(pelicula)
     reparto = get_movie_credits(pelicula)
     if not current_user.is_anonymous:
