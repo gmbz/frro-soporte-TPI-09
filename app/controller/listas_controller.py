@@ -46,3 +46,17 @@ def get_list(mi_lista_: MisListas) -> MisListas:
         movie_api.set_movie(m)
 
     return mi_lista
+
+
+def borrar_serie(mi_lista_: MisListas, serie: Serie) -> MisListas:
+    mi_lista = listas_db.get_by_id(mi_lista_)
+    mi_lista_serie = listas_db.get_mis_listas_serie(mi_lista)
+    listas_db.delete_serie(mi_lista_serie, serie)
+    return mi_lista
+
+
+def borrar_movie(mi_lista_: MisListas, movie: Serie) -> MisListas:
+    mi_lista = listas_db.get_by_id(mi_lista_)
+    mi_lista_serie = listas_db.get_mis_listas_serie(mi_lista)
+    listas_db.delete_movie(mi_lista_serie, movie)
+    return mi_lista

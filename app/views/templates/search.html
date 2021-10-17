@@ -1,0 +1,133 @@
+{% extends 'layout.html' %} 
+{% block title %} {{ title }} {% endblock %} 
+{% block content %}
+
+<div class="container">
+  {% if movies %}
+  <h2>Peliculas</h2>
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1">
+    {% for p in movies %}
+    <!-- LISTADO DE PELICULAS -->
+    <div class="col mx-auto pt-2">
+      <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="{{ p.portada }}"
+            width="253px"
+            height="379px"
+            alt="Portada"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+          <p class="text-muted">{{ p.fecha_string }}</p>
+          {% if p.valoracion < 70 %}
+          <div class="progress d-flex">
+            <div
+              class="progress-bar bg-warning"
+              role="progressbar"
+              style="width: {{ p.valoracion }}%;"
+              aria-valuenow="{{ p.valoracion }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span class="text-dark">{{ p.valoracion }}%</span>
+            </div>
+          </div>
+          {% else %}
+          <div class="progress">
+            <div
+              class="progress-bar bg-success"
+              role="progressbar"
+              style="width: {{ p.valoracion }}%;"
+              aria-valuenow="{{ p.valoracion }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span class="text-dark">{{ p.valoracion }}%</span>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %} {% if series %}
+  <h2>Series</h2>
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1">
+    {% for s in series %}
+    <!-- LISTADO DE PELICULAS -->
+    <div class="col mx-auto pt-2">
+      <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="{{ s.portada }}"
+            width="253px"
+            height="379px"
+            alt="Portada"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-truncate text-white">{{ s.nombre }}</h5>
+          <p class="text-muted">{{ s.fecha_string }}</p>
+          {% if s.valoracion < 70 %}
+          <div class="progress">
+            <div
+              class="progress-bar bg-warning"
+              role="progressbar"
+              style="width: {{ s.valoracion }}%;"
+              aria-valuenow="{{ s.valoracion }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span class="text-dark">{{ s.valoracion }}%</span>
+            </div>
+          </div>
+          {% else %}
+          <div class="progress">
+            <div
+              class="progress-bar bg-success"
+              role="progressbar"
+              style="width: {{ s.valoracion }}%;"
+              aria-valuenow="{{ s.valoracion }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span class="text-dark">{{ s.valoracion }}%</span>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %} {% if persons %}
+  <h2>Personas</h2>
+  <div class="row row-cols-lg-5 row-cols-md-2">
+    {% for p in persons %}
+    <!-- LISTADO DE PERSONAS -->
+    <div class="col mx-auto pt-2">
+      <a href="{{ url_for('person.person_id', id_person=p.id)}}">
+        <div class="card">
+          <img 
+            src="{{ p.perfil }}" 
+            alt="Perfil" 
+            width="196px"
+            height="294px"
+            class="card-img-top"/>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-truncate text-white">{{ p.nombre }}</h5>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

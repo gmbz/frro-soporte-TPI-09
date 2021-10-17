@@ -3,13 +3,12 @@ import requests
 import datetime
 
 from ..models.models import Genero, Movie, Person
-from .db import session
 
 
 api_key = "25398bd0f8e1460f3769b59bfbf5eea6"
 
 
-def lista_popular(pag: str) -> List[Movie]:
+def lista_popular(pag: str = "1") -> List[Movie]:
     """
     Devuelve lista de peliculas populares.
     """
@@ -76,7 +75,7 @@ def movie_without_genre(movie_: Movie) -> Movie:
     return peli
 
 
-def get_by_genre(genre_: Genero, pag: str) -> List[Movie]:
+def get_by_genre(genre_: Genero, pag: str = "1") -> List[Movie]:
     """
     Devuelve listado de todas las peliculas dado un genero.
     """
@@ -114,7 +113,7 @@ def trending_day() -> List[Movie]:
     return lista
 
 
-def top_rated(pag: str) -> List[Movie]:
+def top_rated(pag: str = "1") -> List[Movie]:
     """
     Devuelve lista del top de peliculas.
     """
@@ -126,7 +125,7 @@ def top_rated(pag: str) -> List[Movie]:
     return lista
 
 
-def upcoming(pag: str) -> List[Movie]:
+def upcoming(pag: str = "1") -> List[Movie]:
     """
     Devuelva listado de los proximos estrenos.
     """

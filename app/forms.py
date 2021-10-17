@@ -29,3 +29,8 @@ class NuevaLista(Form):
 class Comentario(Form):
     contenido = StringField('Texto', widget=TextArea(), validators=[
                             DataRequired(), Length(max=255)])
+
+
+class ChangePass(Form):
+    password = PasswordField('Contraseña', validators=[DataRequired()])
+    submit = SubmitField('Cambiar contraseña')

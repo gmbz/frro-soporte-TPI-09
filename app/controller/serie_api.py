@@ -3,9 +3,20 @@ from typing import List, Optional, Iterable
 import requests
 
 from ..models.models import Season, Serie, Person
-from .db import session
 
 api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
+
+
+def search(serie: Serie) -> List[Serie]:
+    """
+    Devuelve listado de series dado nombre.
+    """
+    query = (requests.get("https://api.themoviedb.org/3/search/tv?api_key=" +
+             api_key+"&language=es-ES&include_adult=false&query="+serie.nombre
+                          )).json()
+    lista = []
+    set_serie_list(lista, query)
+    return lista
 
 
 def details(id_serie: str) -> Serie:
@@ -95,9 +106,10 @@ def set_seasons(serie: Serie, query) -> None:
         season = Season(id=data['id'],
                         episodios=data['episode_count'],
                         nombre=data['name'],
-                        numero=data['season_number'],
-                        portada="https://image.tmdb.org/t/p/original/" +
-                        data['poster_path'])
+                        numero=data['season_number'])
+        if data['poster_path']:
+            season.portada = "https://image.tmdb.org/t/p/original/" + \
+                data['poster_path']
         serie.seasons.append(season)
 
 
@@ -105,19 +117,22 @@ def set_serie_list(lista: Iterable, query) -> None:
     """
     Setea los datos de la lista.
     """
-    for data in query['results']:
-        serie = Serie(id=data['id'], nombre=data['name'],
-                      descripcion=data['overview'],
-                      valoracion=int(data['vote_average']*10),)
-        if data['poster_path']:
-            serie.portada = "https://image.tmdb.org/t/p/original/" + \
-                data['poster_path']
-        if data['first_air_date']:
-            serie.fecha_date = datetime.datetime.strptime(
-                data['first_air_date'],
-                "%Y-%m-%d")
-            set_fecha(serie)
-    lista.append(serie)
+    try:
+        for data in query['results']:
+            if data['poster_path']:
+                if data['first_air_date']:
+                    serie = Serie(id=data['id'],
+                                  nombre=data['name'],
+                                  descripcion=data['overview'],
+                                  valoracion=int(data['vote_average']*10),
+                                  portada="https://image.tmdb.org/t/p/original/" +
+                                  data['poster_path'],
+                                  fecha_date=datetime.datetime.strptime(
+                        data['first_air_date'], "%Y-%m-%d"))
+                    set_fecha(serie)
+                    lista.append(serie)
+    except:
+        return None
 
 
 def get_video(id_serie: str) -> Optional[str]:

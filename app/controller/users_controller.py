@@ -1,7 +1,5 @@
 from typing import Optional
 
-from sqlalchemy.sql.functions import current_user
-
 from ..database import user_db
 from ..helpers import helper
 from ..models.exceptions import UserNotValid, UserAlreadyExists, UserNotFound
@@ -30,3 +28,14 @@ def autenticacion(username_: str, pass_: str) -> Usuario:
 
 def buscar_id(id_usuario: int) -> Optional[Usuario]:
     return user_db.buscar_id(id_usuario)
+
+
+def change_pass(user_: Usuario):
+    try:
+        if helper.validate_pass(user_):
+            user = user_db.buscar_id_user(user_)
+            user.set_password(user_.password)
+            user_db.change_pass()
+            return user
+    except UserNotFound as exc:
+        return exc

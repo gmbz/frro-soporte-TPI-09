@@ -11,3 +11,7 @@ def lista_popular(pag: str) -> List[Person]:
 
 def get_person(person_: Person) -> Person:
     return persons_api.get_person(person_)
+
+
+def search_person(person: Person) -> List[Person]:
+    return persons_api.search(person)

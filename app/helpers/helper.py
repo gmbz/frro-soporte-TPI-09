@@ -43,6 +43,18 @@ def validate_registration(user_: Usuario) -> bool:
     return True
 
 
+def validate_pass(user: Usuario) -> bool:
+    """
+    Valida la contraseña nueva.
+    :type user: Usuario
+    :raise: UserNotValid
+    :rtype: bool
+    """
+    if not __password_is_valid(user.password):
+        raise UserNotValid('Contraseña invalida')
+    return True
+
+
 def is_human(captcha, current_app) -> bool:
     """
     Valida la recaptcha response del servidor de Google.
