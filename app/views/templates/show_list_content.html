@@ -1,4 +1,4 @@
-<hr class="mt-5">
+<hr class="mt-5" />
 <div class="row row-cols-md-2 row-cols-sm-1 pt-1">
   <!-- LISTADO DE PELICULAS -->
   <div class="col">
@@ -15,12 +15,16 @@
           />
           <div class="card-body">
             <h5 class="card-title">{{ p.titulo }}</h5>
-            <small class="text-muted">{{ p.fecha_string }}</small>
+            <small class="text-muted d-block pb-5">{{ p.fecha_string }}</small>
+            <a
+              href="{{ url_for('perfil.delete_movie_list', id_lista=mi_lista.id, id_movie=p.id) }}"
+              class="btn btn-outline-danger btn-sm"
+              >Eliminar de la lista</a
+            >
           </div>
         </div>
       </a>
     </div>
-
     {% endfor %}
   </div>
 
@@ -39,7 +43,12 @@
           />
           <div class="card-body">
             <h5 class="card-title">{{ s.nombre }}</h5>
-            <small class="text-muted">{{ s.fecha_string }}</small>
+            <small class="text-muted d-block pb-5">{{ s.fecha_string }}</small>
+            <a
+              href="{{ url_for('perfil.delete_serie_list', id_lista=mi_lista.id, id_serie=s.id) }}"
+              class="btn btn-outline-danger btn-sm"
+              >Eliminar de la lista</a
+            >
           </div>
         </div>
       </a>

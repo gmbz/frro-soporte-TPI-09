@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} 
-{% block title %} Index {% endblock %} 
+{% block title %} {{ title }} {% endblock %} 
 {% block content %}
 
 <div class="container">
@@ -110,11 +110,13 @@
   </div>
   {% endif %}
   <hr />
+  {% if lista %}
   <h2>Recomendaciones</h2>
   <!-- LISTADO DE PELICULAS RECOMENDADAS -->
 
   {% include 'show_movies_list.html' %}
 
+  {% endif %}
   <h2>Comentarios</h2>
 
   <div class="row row-cols-1 justify-content">

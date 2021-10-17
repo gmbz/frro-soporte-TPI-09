@@ -1,146 +1,279 @@
-{% extends 'layout.html' %} {% block title %} Index {% endblock %} {% block
-content %}
+{% extends 'layout.html' %} 
+{% block title %} {{ title }} {% endblock %} 
+{% block content %}
 
 <div class="container">
 
-  <h2>Tendencias</h2>
-
-  <div class="table-responsive">
-    <!-- TABLA DE LAS PELICULAS -->
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          {% for p in trending %}
-          <!-- PORTADAS -->
-          <th>
-            <div class="d-inline-flex flex-row align-items-start">
-              <div class="card" style="width: 18rem">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="280px"
-                    height="420px"
-                  />
-                </a>
-              </div>
-            </div>
-          </th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {% for p in trending %}
-          <!-- TITULOS -->
-          <td>
-            <a
-              class="card-title text-light"
-              href="{{ url_for('main.movie_id', id_movie=p.id) }}"
-              ><strong>{{ p.titulo }}</strong></a
-            >
-            <p class="card-text text-light">{{ p.fecha }}</p>
-          </td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h2>Top</h2>
-
-  <div class="table-responsive">
-    <!-- TABLA DE LAS PELICULAS -->
-    <table class="table">
-      <thead>
-        <tr>
-          {% for p in top %}
-          <!-- PORTADAS -->
-          <th class="align-top">
-            <div class="d-inline-flex flex-row align-items-start">
-              <div class="" style="width: 18rem">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="280px"
-                    height="420px"
-                  />
-                </a>
-                <div class="card-body">
-                  <a
-                    class="card-title text-light"
-                    href="{{ url_for('main.movie_id', id_movie=p.id) }}"
-                  >
-                    <strong>{{ p.titulo }}</strong></a
-                  >
-                  <p class="card-text text-light">{{ p.fecha_string }}</p>
-                </div>
-              </div>
-            </div>
-          </th>
-          {% endfor %}
-        </tr>
-      </thead>
-    </table>
-  </div>
-
-  <h2>Peliculas populares</h2>
-
-  <div class="table-responsive">
-    <!-- TABLA DE LAS PELICULAS -->
-    <table class="table">
-      <thead>
-        <tr>
-          {% for p in lista %}
-          <!-- PORTADAS -->
-          <th class="align-top">
-            <div class="d-inline-flex flex-row align-items-start">
-              <div class="card" style="width: 18rem">
-                <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-                  <img
-                    class="card-img-top"
-                    src="{{ p.portada }}"
-                    alt=""
-                    width="280px"
-                    height="420px"
-                  />
-                </a>
-                <div class="d-flex">
-                  <a
-                  class="card-title text-light"
-                  href="{{ url_for('main.movie_id', id_movie=p.id) }}"
-                  ><strong>{{ p.titulo }}</strong></a
-                  >
-                  <p class="ml-auto">{{ p.valoracion }}%</p>
-                </div>
-                <p class="card-text text-light">{{ p.fecha_string }}</p>
-              </div>
-            </div>
-          </th>
-          {% endfor %}
-        </tr>
-      </thead>
-    </table>
-  </div>
-
-  <!-- <div class="row row-cols-lg-4 row-cols-md-2">
-    {% for p in lista %}
-    <div class="col mx-auto">
-      <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
-        <div class="card bg-dark">
-            <img src="{{ p.portada }}">
+  <div class="jumbotron d-flex flex-column bh-jumbotron">
+    <h1 class="display-3">Registrate!</h1>
+    <p>Crea listas personalizadas, añade peliculas, series y comenta.</p>
+    <form action="{{ url_for('main.search') }}" method="POST" class="col-12">
+      <div class="input-group">
+        <input type="text" name="search" placeholder="Buscar peliculas, series, personas" class="form-control">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">BUSCAR</button>
         </div>
-      </a>
-      <div>
-        <h5>{{ p.titulo }}</h5>
-        <h6 class="font-weight-lighter">{{ p.fecha }}</h6>
+      </div>
+    </form>
+  </div>
+  
+  <h2>Tendencias</h2>
+  <div class="list-group list-group-horizontal col-4" id="list-group-trending" role="tablist">
+    <a 
+      href="#moviesTrendingContent" 
+      class="list-group-item list-group-item-action"
+      role="tab"
+      data-toggle="list"
+      aria-control="moviesTrending"
+      id="moviesTrending"
+      >Peliculas</a>
+  </div>
+  <div class="tab-content col-12" id="content-group-trending">
+    <div 
+      class="tab-pane fade active show"
+      role="tabpanel"
+      id="moviesTrendingContent"
+      aria-labelledby="moviesTrending"
+      >
+      <!-- CONTENIDO PELICULAS EN TENDENCIA -->
+      <div class="table-responsive">
+        <!-- TABLA DE LAS PELICULAS -->
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              {% for p in trending %}
+              <!-- PORTADAS -->
+              <th>
+                <div class="d-inline-flex flex-row align-items-start">
+                  <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
+                    <div class="card" style="width: 18rem">
+                      <img
+                        class="card-img-top"
+                        src="{{ p.portada }}"
+                        alt=""
+                        width="280px"
+                        height="420px"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+                      <p class="text-muted">{{ p.fecha_string }}</p>
+                    </div>
+                  </a>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+        </table>
       </div>
     </div>
-    {% endfor %}
-  </div> -->
+  </div>
+
+  <hr>
+
+  <h2>Populares</h2>
+  <div class="list-group list-group-horizontal col-4" id="list-group-populares" role="tablist">
+    <a 
+      href="#moviesPopularesContent" 
+      class="list-group-item list-group-item-action"
+      role="tab"
+      data-toggle="list"
+      aria-control="moviesPopulares"
+      id="moviesTrendPopulares"
+      >Peliculas</a>
+    <a 
+      href="#seriesPopularesContent" 
+      class="list-group-item list-group-item-action"
+      role="tab"
+      data-toggle="list"
+      aria-control="seriesPopulares"
+      id="seriesPopulares"
+    >Series</a>
+  </div>
+  <div class="tab-content col-12" id="content-group-Populares">
+    <div 
+      class="tab-pane fade active show"
+      role="tabpanel"
+      id="moviesPopularesContent"
+      aria-labelledby="moviesPopulares"
+      >
+      <!-- CONTENIDO PELICULAS POPULARES -->
+      <div class="table-responsive">
+        <!-- TABLA DE LAS PELICULAS -->
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              {% for p in lista %}
+              <!-- PORTADAS -->
+              <th>
+                <div class="d-inline-flex flex-row align-items-start">
+                  <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
+                    <div class="card" style="width: 18rem">
+                      <img
+                        class="card-img-top"
+                        src="{{ p.portada }}"
+                        alt=""
+                        width="280px"
+                        height="420px"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+                      <p class="text-muted">{{ p.fecha_string }}</p>
+                    </div>
+                  </a>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div 
+      class="tab-pane fade"
+      role="tabpanel"
+      id="seriesPopularesContent"
+      aria-labelledby="seriesPopulares"
+      >
+      <!-- CONTENIDO SERIES POPULARES -->
+      <div class="table-responsive">
+        <!-- TABLA DE LAS PELICULAS -->
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              {% for s in series_pop %}
+              <!-- PORTADAS -->
+              <th>
+                <div class="d-inline-flex flex-row align-items-start">
+                  <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
+                    <div class="card" style="width: 18rem">
+                      <img
+                        class="card-img-top"
+                        src="{{ s.portada }}"
+                        alt=""
+                        width="280px"
+                        height="420px"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate text-white">{{ s.nombre }}</h5>
+                      <p class="text-muted">{{ s.fecha_string }}</p>
+                    </div>
+                  </a>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>Top</h2>
+  <div class="list-group list-group-horizontal col-4" id="list-group-top" role="tablist">
+    <a 
+      href="#moviesTopContent" 
+      class="list-group-item list-group-item-action"
+      role="tab"
+      data-toggle="list"
+      aria-control="moviesTop"
+      id="moviesTop"
+      >Peliculas</a>
+    <a 
+      href="#seriesTopContent" 
+      class="list-group-item list-group-item-action"
+      role="tab"
+      data-toggle="list"
+      aria-control="seriesTop"
+      id="seriesTop"
+    >Series</a>
+  </div>
+  <div class="tab-content col-12" id="content-group-top">
+    <div 
+      class="tab-pane fade active show"
+      role="tabpanel"
+      id="moviesTopContent"
+      aria-labelledby="moviesTop"
+      >
+      <!-- CONTENIDO PELICULAS TOP -->
+      <div class="table-responsive">
+        <!-- TABLA DE LAS PELICULAS -->
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              {% for p in top %}
+              <!-- PORTADAS -->
+              <th>
+                <div class="d-inline-flex flex-row align-items-start">
+                  <a href="{{ url_for('main.movie_id', id_movie=p.id) }}">
+                    <div class="card" style="width: 18rem">
+                      <img
+                        class="card-img-top"
+                        src="{{ p.portada }}"
+                        alt=""
+                        width="280px"
+                        height="420px"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate text-white">{{ p.titulo }}</h5>
+                      <p class="text-muted">{{ p.fecha_string }}</p>
+                    </div>
+                  </a>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div 
+      class="tab-pane fade"
+      role="tabpanel"
+      id="seriesTopContent"
+      aria-labelledby="seriesTop"
+      >
+      <!-- CONTENIDO SERIES TOP -->
+      <div class="table-responsive">
+        <!-- TABLA DE LAS PELICULAS -->
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              {% for s in series_top %}
+              <!-- PORTADAS -->
+              <th>
+                <div class="d-inline-flex flex-row align-items-start">
+                  <a href="{{ url_for('series.serie_details', id_serie=s.id) }}">
+                    <div class="card" style="width: 18rem">
+                      <img
+                        class="card-img-top"
+                        src="{{ s.portada }}"
+                        alt=""
+                        width="280px"
+                        height="420px"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate text-white">{{ s.nombre }}</h5>
+                      <p class="text-muted">{{ s.fecha_string }}</p>
+                    </div>
+                  </a>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}

@@ -1,26 +1,31 @@
 {% extends 'layout.html' %} 
-{% block title %} Index {% endblock %} 
+{% block title %} {{ title }} {% endblock %} 
 {% block content %}
 
 <div class="container">
   <div class="row row-cols-lg-5 row-cols-md-2">
     {% for p in lista %}
     <!-- LISTADO DE PERSONAS -->
-    <div class="col mx-auto">
+    <div class="col mx-auto pt-2">
       <a href="{{ url_for('person.person_id', id_person=p.id)}}">
-        <div class="card bg-dark">
-          <img src="{{ p.perfil }}" />
+        <div class="card">
+          <img
+            src="{{ p.perfil }}"
+            alt="Perfil"
+            width="196px"
+            height="294px"
+            class="card-img-top"
+          />
         </div>
       </a>
-      <div>
-        <p><strong>{{ p.nombre }}</strong></p>
+      <div class="card-body">
+        <h5 class="card-title text-truncate text-white">{{ p.nombre }}</h5>
       </div>
     </div>
     {% endfor %}
   </div>
-  
-  {% include 'show_paginacion.html' %}
 
+  {% include 'show_paginacion.html' %}
 </div>
 
 {% endblock %}

@@ -46,3 +46,7 @@ def autenticacion(username_: str, pass_: str) -> Optional[Usuario]:
             return usuario
         raise UserNotFound('Contraseña incorrecta')
     raise UserNotFound('El usuario no existe')
+
+
+def change_pass():
+    session.commit()

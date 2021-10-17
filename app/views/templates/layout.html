@@ -192,6 +192,13 @@
               <a class="nav-link" href="{{ url_for('person.persons', pag=1) }}">
                 Personas
               </a>
+            </li>
+            <!-- ITEM -->
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/gmbz/frro-soporte-TPI-09">
+                Repositorio
+              </a>
+            </li>
           </ul>
           <!-- ITEMS A LA DERECHA DE LA BARRA DE NAVEGACION -->
           {% if current_user.is_anonymous %}
@@ -249,9 +256,9 @@
       </nav>
       <!-- FIN BARRA DE NAVEGACION -->
     </div>
-    <div class="pt-5">
-      {% block content %} {% endblock %}
-    </div>
+    
+    {% block content %} {% endblock %}
+    
     
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

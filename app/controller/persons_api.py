@@ -6,6 +6,26 @@ from ..models.models import Movie, Person, Serie
 api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
 
 
+def search(person: Person) -> List[Person]:
+    """
+    Devuelve listado de personas dado un nombre.
+    """
+
+    query = (requests.get(
+        "https://api.themoviedb.org/3/search/person?api_key=" +
+             api_key+"&language=es-ES&include_adult=false&query="+person.nombre
+             )).json()
+    lista = []
+    for data in query['results']:
+        per = Person(id=data['id'],
+                     nombre=data['name'])
+        if data['profile_path']:
+            per.perfil = ("https://image.tmdb.org/t/p/original/" +
+                          data['profile_path'])
+        lista.append(per)
+    return lista
+
+
 def lista_popular(pag: str) -> List[Person]:
     """
     Devuelve lista de personas populares.
