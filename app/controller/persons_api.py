@@ -2,8 +2,7 @@ from typing import List
 import requests
 
 from ..models.models import Movie, Person, Serie
-
-api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
+from . import api_key
 
 
 def search(person: Person) -> List[Person]:

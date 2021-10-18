@@ -5,13 +5,13 @@
 <div class="container">
   <div class="row mt-4">
     <!-- PERFIL -->
-    <div class="col-4">
+    <div class="col-lg-4 col-md-4 col-12 my-auto">
       <div class="card bg-dark">
         <img class="card-img"src="{{ p.perfil }}" />
       </div>
     </div>
     <!-- NOMBRE Y BIOGRAFIA -->
-    <div class="col-8">
+    <div class="col-lg-8 col-md-8 col-12">
       <h5>{{ p.nombre }}</h5>
       <p class="text-light">{{ p.biografia }}</p>
     </div>
@@ -28,7 +28,7 @@
           <ul class="list-group">
             {% for m in p.peliculas %}
             <li class="list-group-item bg-dark">
-              <a class="card-link d-inline-flex text-light" href="{{ url_for('main.movie_id', id_movie=m.id) }}">
+              <a class="card-link d-inline-flex text-light" href="{{ url_for('movies.movie_id', id_movie=m.id) }}">
                 <strong>{{ m.titulo }}</strong>
               </a>
             </li>

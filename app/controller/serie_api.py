@@ -3,8 +3,7 @@ from typing import List, Optional, Iterable
 import requests
 
 from ..models.models import Season, Serie, Person
-
-api_key = '25398bd0f8e1460f3769b59bfbf5eea6'
+from . import api_key
 
 
 def search(serie: Serie) -> List[Serie]:

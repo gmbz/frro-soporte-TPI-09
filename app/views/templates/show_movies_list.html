@@ -2,7 +2,7 @@
   {% for p in lista %}
   <!-- LISTADO DE PELICULAS -->
   <div class="col mx-auto pt-2">
-    <a href="{{ url_for('main.movie_id', id_movie=p.id)}}">
+    <a href="{{ url_for('movies.movie_id', id_movie=p.id)}}">
       <div class="card">
         <img
           class="card-img-top"

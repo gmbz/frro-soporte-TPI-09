@@ -6,7 +6,10 @@ Este es un archivo que debe completarse con los datos utilizados en el TPI. Este
 
 ## Descripción del proyecto
 
-En este proyecto se llevará a cabo el desarrollo de una aplicacion web que corresponde a una red social de películas, donde los usuarios podrán acceder a la información de la película que desee y comentarla y calificarla.
+El proyecto consta de una aplicación web orientada a una red social de cine, en la cual, el usuario podrá crear listas personalizadas y agregar a estas películas y series según quiera, además, podrá realizar comentarios para compartir su opinión acerca de dichos entretenimientos. El usuario también podrá visualizar el detalle de las películas, series y personas, que consiste en portada, descripción, créditos, trailers y demás.
+Se visualizarán distintas listas como populares, próximos estrenos, ranking, etc.
+La aplicación será desarrollada en Python y los datos de las películas/series/personas serán obtenidos por medio de la API de TMDB a través de una clave que nos proporcionó dicha web.
+
 
 ## Modelo de Dominio
 
@@ -15,6 +18,18 @@ En este proyecto se llevará a cabo el desarrollo de una aplicacion web que corr
 ## Bosquejo de Arquitectura
 
 Definir la arquitectura del sistema y como interactuan sus diferentes componentes. Utilizar el Paquete **Office** de Draw.io o similar. [Ejemplo Online]().
+
+## Reglas de Negocio
+
+|RN|Descripción|
+|01|La longitud de las contraseñas debe ser entre 8 y 16 caracteres y solo contienen letras y números.|
+|02|El nombre de usuario debe ser único.|
+|03|El email debe ser único.|
+|04|El nombre de usuario debe contener entre 6 y 30 caracteres y no puede contener símbolos.|
+|05|Los usuarios no autenticados no pueden realizar comentarios.|
+|06|Los usuarios no autenticados no pueden crear listas personalizadas.|
+|07|Los usuarios no autenticados no pueden agregar películas/series a las listas.|
+|08|La información de las películas/series/personas se obtienen del api de TMDB.|
 
 ## Requerimientos
 
@@ -28,18 +43,17 @@ Listado y descripción breve de los requerimientos funcionales.
 |:---:|:---|
 |01|Registrar nuevo usuario|
 |02|Autenticar usuario|
-|03|Registrar nuevo comentario|
-|04|Mostrar lista películas populares|
-|05|Agregar película a lista personalizada|
-|06|Buscar pelicula por nombre|
-|07|Cambiar imagen de perfil de usuario|
-|08|Valorar comentario (upvote o downvote)|
-|09|Mostrar informacion de película|
-|10|Mostrar próximos estrenos|
-|11|Mostrar tendencias|
-|12|Crear listas personalizadas|
-|13|Mostrar información de actores/productores|
-|14|Mostrar películas filtradas por género|
+|03|Cambiar contraseña de usuario|
+|04|Mostrar listado de películas/series/personas populares|
+|05|Mostrar listado de películas/series más valoradas|
+|06|Mostrar listado de próximos estrenos de películas|
+|07|Mostrar detalle de películas/series/personas|
+|08|Mostrar tendencias de películas|
+|09|Mostrar películas filtradas por género|
+|10|Registrar nuevo comentario para una película/serie|
+|11|Crear listas personalizadas|
+|12|Agregar películas/series a lista personalizada|
+|13|Visualizar recomendaciones según película/serie|
 
 ### No Funcionales
 

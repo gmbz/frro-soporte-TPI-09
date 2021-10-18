@@ -3,9 +3,7 @@ import requests
 import datetime
 
 from ..models.models import Genero, Movie, Person
-
-
-api_key = "25398bd0f8e1460f3769b59bfbf5eea6"
+from . import api_key
 
 
 def lista_popular(pag: str = "1") -> List[Movie]:

@@ -24,13 +24,15 @@ def delete(mi_lista: MisListas) -> int:
 
 
 def delete_serie(lista_serie: MisListasSerie, serie_: Serie) -> MisListasSerie:
-    session.query(MisListasSerie).filter(MisListasSerie.id_serie == serie_.id).delete()
+    session.query(MisListasSerie).filter(
+        MisListasSerie.id_serie == serie_.id).delete()
     session.commit()
     return lista_serie
 
 
 def delete_movie(lista_movie: MisListasMovie, movie_: Movie) -> MisListasMovie:
-    session.query(MisListasMovie).filter(MisListasMovie.id_movie == movie_.id).delete()
+    session.query(MisListasMovie).filter(
+        MisListasMovie.id_movie == movie_.id).delete()
     session.commit()
     return lista_movie
 
