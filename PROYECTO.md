@@ -17,7 +17,7 @@ La aplicación será desarrollada en Python y los datos de las películas/series
 
 ## Bosquejo de Arquitectura
 
-Definir la arquitectura del sistema y como interactuan sus diferentes componentes. Utilizar el Paquete **Office** de Draw.io o similar. [Ejemplo Online]().
+![Bosquejo de Arquitectura](img/bosquejo-de-arquitectura.png)
 
 ## Reglas de Negocio
 
