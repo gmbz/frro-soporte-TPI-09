@@ -6,8 +6,8 @@ El siguiente checklist permite una fácil detección de malas prácticas y posib
 
 ### General
 
-- [ ] El sistema debe estar **DESPLEGADO**
-    - [ ] Debe estar online y accesible desde cualquier dispositivo, es decir no desde localhost (Sólo para Web)
+- [x] El sistema debe estar **DESPLEGADO**
+    - [x] Debe estar online y accesible desde cualquier dispositivo, es decir no desde localhost (Sólo para Web)
     - [ ] En caso de no ser Web, debe poder installarse desde PyPi usando pip install
 - [x] Cada capa debe seguir las buenas prácticas de formato
     - [x] En caso de ser un único archivo el archivo deberá tener el nombre de la capa (db.py, controller.py, presentation.py)

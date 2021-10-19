@@ -25,9 +25,13 @@ def main(id_lista=""):
     if id_lista:
         mi_lista_ = MisListas(id=id_lista)
         mi_lista = get_list(mi_lista_)
-        return render_template('perfil.html', mis_listas=listado_mis_listas,
-                               form=form, form_change=form_change,
-                               mi_lista=mi_lista, title=title)
+        print(mi_lista.id_user)
+        print(user.id)
+        if mi_lista.id_user == user.id:
+            return render_template('perfil.html', mis_listas=listado_mis_listas,
+                                   form=form, form_change=form_change,
+                                   mi_lista=mi_lista, title=title)
+        flash("Oops! Parece que esta lista no es tuya.", 'warning')
     # SI NO RECIBE UNA LISTA, MUESTRA EL CONTENIDO NORMALMENTE
     return render_template('perfil.html', mis_listas=listado_mis_listas,
                            form=form, form_change=form_change, title=title)
