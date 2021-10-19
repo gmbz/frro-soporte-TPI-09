@@ -6,8 +6,8 @@ from ..models.models import Movie, Comentario, Serie, Usuario
 from . import movie_api, serie_api
 
 
-def registrar_comentario(comment: Comentario, movie_: Movie, id_user: int):
-    user = user_db.buscar_id(id_user)
+def registrar_comentario(comment: Comentario, movie_: Movie, user: Usuario):
+    user = user_db.buscar_id_user(user)
     movie = movie_db.get_in_db(movie_)
     date_ = datetime.datetime.now()
     date_string = date_.strftime("%d/%m/%Y %H:%M")

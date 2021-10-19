@@ -22,6 +22,7 @@ La aplicación será desarrollada en Python y los datos de las películas/series
 ## Reglas de Negocio
 
 |RN|Descripción|
+|:---:|:---|
 |01|La longitud de las contraseñas debe ser entre 8 y 16 caracteres y solo contienen letras y números.|
 |02|El nombre de usuario debe ser único.|
 |03|El email debe ser único.|

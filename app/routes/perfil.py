@@ -61,7 +61,7 @@ def add_movie_list(id_lista, id_movie):
     movie = Movie(id=id_movie)
     mi_lista = add_movie(mi_lista_, movie)
     flash(f"Pelicula añadida a la lista {mi_lista.nombre}", 'success')
-    return redirect(url_for('main.movie_id', id_movie=id_movie))
+    return redirect(url_for('movies.movie_id', id_movie=id_movie))
 
 
 @perfil.route('/add_serie/<id_lista>/<id_serie>', methods=['GET', 'POST'])

@@ -16,8 +16,8 @@ def register_user(usuario: Usuario) -> Usuario:
     return usuario
 
 
-def buscar_id_user(user_: Usuario) -> Usuario:
-    return session.query(Usuario).get(user_.id)
+def buscar_id_user(user: Usuario) -> Usuario:
+    return session.query(Usuario).get(user.id)
 
 
 def buscar_id(id_usuario) -> Optional[Usuario]:
@@ -38,10 +38,10 @@ def buscar_user(username_: str) -> Optional[Usuario]:
     return session.query(Usuario).filter(Usuario.username == username_).first()
 
 
-def autenticacion(username_: str, pass_: str) -> Optional[Usuario]:
-    usuario = buscar_user(username_)
+def autenticacion(user_: Usuario) -> Optional[Usuario]:
+    usuario = buscar_user(user_.username)
     if usuario:
-        check = usuario.check_password(pass_)
+        check = usuario.check_password(user_.password)
         if check is True:
             return usuario
         raise UserNotFound('Contraseña incorrecta')

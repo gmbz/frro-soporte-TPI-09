@@ -1,5 +1,5 @@
 class Config:
-    DEBUG = False
+    DEBUG = True
     SECRET_KEY = "diRpijX60i"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

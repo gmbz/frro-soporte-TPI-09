@@ -24,8 +24,9 @@ def series_populares(pag):
 
 @series.route('/series/<id_serie>/', methods=['GET'])
 def serie_details(id_serie):
-    serie = get_details(id_serie)
-    recomendations = lista_recomendations(id_serie)
+    serie_ = Serie(id=id_serie)
+    serie = get_details(serie_)
+    recomendations = lista_recomendations(serie)
     comentarios = lista_por_serie(serie)
     reparto = get_serie_credits(serie)
     title = "Serie"

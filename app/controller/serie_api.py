@@ -18,12 +18,13 @@ def search(serie: Serie) -> List[Serie]:
     return lista
 
 
-def details(id_serie: str) -> Serie:
+def details(serie_: Serie) -> Serie:
     """
     Devuelve la instancia de la serie dado su id.
     """
+    id_ = str(serie_.id)
     query = (requests.get("https://api.themoviedb.org/3/tv/" +
-             id_serie+"?api_key="+api_key+"&language=es-ES")).json()
+             id_+"?api_key="+api_key+"&language=es-ES")).json()
     serie = Serie(id=query['id'], nombre=query['name'],
                   descripcion=query['overview'],
                   pagina_principal=query['homepage'],
@@ -32,7 +33,7 @@ def details(id_serie: str) -> Serie:
                   query['poster_path'],
                   fecha_date=datetime.datetime.strptime(
                       query['first_air_date'], "%Y-%m-%d"),
-                  video=get_video(id_serie))
+                  video=get_video(id_))
     set_seasons(serie, query)
     set_fecha(serie)
     return serie
@@ -61,11 +62,11 @@ def lista_top_rated(pag: str) -> List[Serie]:
     return lista
 
 
-def lista_recomendations(id_serie: str) -> List[Serie]:
+def lista_recomendations(serie_: Serie) -> List[Serie]:
     """
     Devuelve listado de series recomendadas dado un id.
     """
-    query = (requests.get("https://api.themoviedb.org/3/tv/"+id_serie +
+    query = (requests.get("https://api.themoviedb.org/3/tv/"+str(serie_.id) +
              "/recommendations?api_key="+api_key+"&language=es-ES")).json()
     lista = []
     set_serie_list(lista, query)

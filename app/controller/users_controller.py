@@ -18,9 +18,9 @@ def register_user(user_: Usuario) -> Usuario:
         return exc
 
 
-def autenticacion(username_: str, pass_: str) -> Usuario:
+def autenticacion(user_: Usuario) -> Usuario:
     try:
-        user = user_db.autenticacion(username_, pass_)
+        user = user_db.autenticacion(user_)
         return user
     except UserNotFound as exc:
         return exc

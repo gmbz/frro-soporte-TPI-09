@@ -29,7 +29,7 @@ def add_serie(mi_lista: MisListas, serie_: Serie) -> MisListas:
     lista = listas_db.get_by_id(mi_lista)
     serie = serie_db.get_in_db(serie_)
     if serie is None:
-        serie = serie_api.details(serie_.id)
+        serie = serie_api.details(serie_)
     lista.series.append(serie)
     listas_db.commit_db()
     return lista

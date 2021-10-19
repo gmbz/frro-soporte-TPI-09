@@ -3,7 +3,6 @@ from flask_login import current_user
 from flask_login.utils import login_required
 
 from ..models.models import Genero, Movie, Comentario, Person, Serie, Usuario
-from ..controller.listas_controller import listado_por_usuario
 from ..controller.persons_controller import search_person
 from ..controller import series_controller
 from ..controller import movies_controller
@@ -45,9 +44,10 @@ def search():
 def movie_comment():
     _movie = Movie(id=request.form['IdMovie'])
     _id_user = int(current_user.id)
+    user = Usuario(id=_id_user)
     _comment = Comentario(contenido=request.form['comentario'])
-    comments_controller.registrar_comentario(_comment, _movie, _id_user)
-    return redirect(url_for('main.home'))
+    comments_controller.registrar_comentario(_comment, _movie, user)
+    return redirect(url_for('movies.movie_id', id_movie=_movie.id))
 
 
 @main.route('/genre/<genre_name>/page=<pag>', methods=['GET'])

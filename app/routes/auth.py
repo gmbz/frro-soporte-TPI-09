@@ -1,4 +1,5 @@
-from flask import Blueprint, request, flash, redirect, url_for, render_template, current_app
+from flask import (Blueprint, request, flash, redirect, url_for,
+                   render_template, current_app)
 from flask_login import login_user, current_user, logout_user
 from flask_login.utils import login_required
 
@@ -43,9 +44,8 @@ def login():
     login_form = Login(request.form)
     title = "Iniciar sesión"
     if request.method == 'POST':
-        username_ = login_form.username.data
-        password_ = login_form.password.data
-        user = autenticacion(username_, password_)
+        user_ = Usuario(username=login_form.username.data, password=login_form.password.data)
+        user = autenticacion(user_)
         if isinstance(user, Usuario):
             login_user(user)
             flash(f"Logueado {current_user.username}", 'success')
