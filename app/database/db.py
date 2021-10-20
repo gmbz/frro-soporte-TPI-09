@@ -10,7 +10,4 @@ Base.metadata.bind = engine
 Session = sessionmaker(bind=engine, autoflush=False)
 session = Session()
 
-try:
-    Base.metadata.create_all(engine)
-except:
-    pass
+Base.metadata.create_all(engine)
